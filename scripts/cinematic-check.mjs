@@ -39,10 +39,11 @@ try {
     await page.waitForFunction(() => !document.querySelector('video').paused)
     await page.getByRole('link', { name: '探索我的作品' }).click()
     await page.waitForURL('**/projects.html')
-    expect(await page.locator('#work .project-card').count() === 4, `${width}: all projects retained on portfolio page`)
+    expect(await page.locator('#work .carousel-card-link').count() === 4, `${width}: all projects retained on portfolio page`)
+    await page.goto(base + '/about.html', { waitUntil: 'domcontentloaded' })
     expect(await page.locator('#about,#research,#creator,#contact').count() === 4, `${width}: all content sections retained`)
     await page.goto(base + '/index.html#about', { waitUntil: 'domcontentloaded' })
-    await page.waitForURL('**/projects.html#about')
+    await page.waitForURL('**/about.html#about')
     expect(await page.locator('#about').count() === 1, `${width}: old homepage bookmark redirects`)
     await page.goto(base, { waitUntil: 'domcontentloaded' })
     if (width === 390) {
@@ -53,8 +54,8 @@ try {
       expect(await page.getByRole('navigation', { name: '手机导航' }).count() === 0, 'Escape closes mobile menu')
       await page.getByRole('button', { name: '打开导航' }).click()
       await page.getByRole('navigation', { name: '手机导航' }).getByRole('link', { name: '关于' }).click()
-      await page.waitForURL('**/projects.html#about')
-      expect(await page.locator('#about').count() === 1, 'Mobile about link reaches portfolio page')
+      await page.waitForURL('**/about.html')
+      expect(await page.locator('#about').count() === 1, 'Mobile about link reaches about page')
     }
     await context.close()
   }

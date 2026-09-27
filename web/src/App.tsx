@@ -3,6 +3,7 @@ import { ArrowDown, ArrowDownToLine, ArrowLeft, ArrowRight, ArrowUpRight, Award,
 import { certificates, honors, papers, projects, skills, type Project } from './data'
 import { ProjectScene, ResearchMark } from './components/Scenes'
 import { CinematicHero } from './components/CinematicHero'
+import ProjectShowcase from './components/carousel-demo'
 import auraContent from './content/aura.html?raw'
 import minicodeContent from './content/minicode.html?raw'
 import shortdramaContent from './content/shortdrama.html?raw'
@@ -36,23 +37,16 @@ function Header({ page }: {page:string}) {
   },[menu])
   const toggleTheme=()=>{const next=!light;setLight(next);document.documentElement.dataset.theme=next?'light':'dark';try{localStorage.setItem('portfolio-theme',next?'light':'dark')}catch{}}
   const toggleMotion=()=>{const next=!paused;setPaused(next);document.documentElement.dataset.motion=next?'paused':'running';try{localStorage.setItem('portfolio-motion',next?'paused':'running')}catch{}}
-  const nav=[['首页','/index.html','index'],['作品','/projects.html','projects'],['研究','/papers.html','papers'],['荣誉','/honors.html','honors']]
+  const nav=[['首页','/index.html','index'],['作品','/projects.html','projects'],['关于','/about.html','about'],['研究','/papers.html','papers'],['荣誉','/honors.html','honors']]
   return <header className="site-header"><div className="container nav-row">
     <a className="brand" href="/index.html" aria-label="汤林夕，返回首页"><img src="/favicon.svg" width="31" height="31" alt=""/><span>汤林夕<span className="brand-suffix mono"> / LINXI</span></span></a>
-    <nav id="main-navigation" className={`main-nav ${menu?'is-open':''}`} aria-label="主导航">{nav.map(([label,href,id])=><a key={id} href={href} aria-current={page===id?'page':undefined} onClick={()=>setMenu(false)}>{label}</a>)}<a href="/projects.html#about" onClick={()=>setMenu(false)}>关于</a></nav>
+    <nav id="main-navigation" className={`main-nav ${menu?'is-open':''}`} aria-label="主导航">{nav.map(([label,href,id])=><a key={id} href={href} aria-current={page===id?'page':undefined} onClick={()=>setMenu(false)}>{label}</a>)}</nav>
     <div className="nav-actions"><button className="icon-button motion-toggle" type="button" onClick={toggleMotion} aria-label={paused?'启用动效':'暂停动效'} title={paused?'启用动效':'暂停动效'}>{paused?<Play size={15}/>:<Pause size={15}/>}</button><button className="icon-button" type="button" onClick={toggleTheme} aria-label={light?'切换深色主题':'切换浅色主题'} title={light?'切换深色主题':'切换浅色主题'}>{light?<Moon size={16}/>:<Sun size={16}/>}</button><a className="nav-contact" href="mailto:1803554228@qq.com">联系我 <ArrowUpRight size={14}/></a><button className="icon-button menu-toggle" id="menu-toggle" type="button" onClick={()=>setMenu(!menu)} aria-controls="main-navigation" aria-expanded={menu} aria-label={menu?'关闭导航':'打开导航'}>{menu?<X size={20}/>:<Menu size={20}/>}</button></div>
   </div></header>
 }
 
 function TrustStrip() {
   return <div className="trust-strip"><div className="container trust-inner"><span className="mono trust-label">EXPERIENCE & RESEARCH</span><div>小红书<span>XIAOHONGSHU</span></div><div>中文在线<span>CHINESEALL</span></div><div>亚信科技<span>ASIainfo</span></div><div>西南科技大学<span>SWUST · MASTER’S</span></div></div></div>
-}
-
-function ProjectCard({project:p}: {project:Project}) {
-  return <a href={`/${p.id}.html`} className={`project-card ${p.color}`}><div className="project-preview"><ProjectScene id={p.id}/><span className="project-open" aria-hidden="true"><ArrowUpRight size={22}/></span></div><div className="project-card-body"><div className="project-card-top"><span className="mono project-category">{p.number} / {p.category}</span><span className="project-company">{p.company}</span></div><h3>{p.name}<ArrowUpRight size={24}/></h3><p>{p.description}</p><div className="tag-row">{p.tags.slice(0,4).map(t=><span key={t}>{t}</span>)}</div></div></a>
-}
-function Projects({full=false}:{full?:boolean}) {
-  return <section className={`section container work-section ${full?'standalone-work':''}`} id="work"><SectionHeading number="01" english="SELECTED WORK / 2025—2026" title="让想法，有真实的着落。"><p className="section-aside">从底层框架到用户体验，<br/>四个项目，四种落地方式。</p></SectionHeading><div className="projects-grid">{projects.map(p=><ProjectCard project={p} key={p.id}/>)}</div>{!full&&<div className="section-bottom"><span className="mono">DESIGNED. BUILT. CONTINUOUSLY REFINED.</span><a className="text-link" href="/projects.html">查看完整项目索引 <ArrowRight size={16}/></a></div>}</section>
 }
 
 function About() {
@@ -72,7 +66,7 @@ function Contact() {
   const timer=useRef<number>()
   useEffect(()=>()=>window.clearTimeout(timer.current),[])
   const copy=async()=>{try{await navigator.clipboard.writeText(email);setCopied(true);window.clearTimeout(timer.current);timer.current=window.setTimeout(()=>setCopied(false),2000)}catch{window.location.href=`mailto:${email}`}}
-  return <section className="contact-section" id="contact"><div className="container contact-inner"><Label>LET’S BUILD WHAT’S NEXT</Label><h2>下一个有意思的项目，<br/>也许<span>由我们一起完成。</span></h2><p>正在寻找 AI Agent / AI 应用研发岗位。<br/>也欢迎交流 Agent 工程、RAG 优化与模型蒸馏。</p><div className="contact-email"><a href={`mailto:${email}`}>{email}<ArrowUpRight size={27}/></a><button className="icon-button" onClick={copy} type="button" aria-label={copied?'邮箱已复制':'复制邮箱'}>{copied?<Check size={18}/>:<Copy size={18}/>}</button><span className="sr-only" aria-live="polite">{copied?'邮箱已复制':''}</span></div><div className="contact-links"><a href="https://github.com/K80Tom" {...external}><Github size={17}/>GitHub<ArrowUpRight size={13}/></a><a href="/assets/resume.pdf" download><FileText size={17}/>简历 PDF<ArrowDownToLine size={13}/></a><a href="/projects.html#creator"><Play size={16}/>技术分享<ArrowUpRight size={13}/></a></div></div><div className="contact-watermark" aria-hidden="true">LET’S BUILD.</div></section>
+  return <section className="contact-section" id="contact"><div className="container contact-inner"><Label>LET’S BUILD WHAT’S NEXT</Label><h2>下一个有意思的项目，<br/>也许<span>由我们一起完成。</span></h2><p>正在寻找 AI Agent / AI 应用研发岗位。<br/>也欢迎交流 Agent 工程、RAG 优化与模型蒸馏。</p><div className="contact-email"><a href={`mailto:${email}`}>{email}<ArrowUpRight size={27}/></a><button className="icon-button" onClick={copy} type="button" aria-label={copied?'邮箱已复制':'复制邮箱'}>{copied?<Check size={18}/>:<Copy size={18}/>}</button><span className="sr-only" aria-live="polite">{copied?'邮箱已复制':''}</span></div><div className="contact-links"><a href="https://github.com/K80Tom" {...external}><Github size={17}/>GitHub<ArrowUpRight size={13}/></a><a href="/assets/resume.pdf" download><FileText size={17}/>简历 PDF<ArrowDownToLine size={13}/></a><a href="/about.html#creator"><Play size={16}/>技术分享<ArrowUpRight size={13}/></a></div></div><div className="contact-watermark" aria-hidden="true">LET’S BUILD.</div></section>
 }
 function Creator() {
   return <section className="container creator" id="creator"><div className="creator-icon mono">↗</div><div><Label>LEARN. BUILD. SHARE.</Label><h3>欧皓辰我选你。<span>抖音技术分享</span></h3><p>记录 Agent 开发实战、大模型工程化与新的想法。教，是另一种学习。</p></div><div className="creator-number"><b className="mono">1,903</b><span>关注者 · 原站记录</span></div></section>
@@ -81,10 +75,10 @@ function Footer(){return <footer className="site-footer container"><a href="/ind
 
 function PageIntro({label,title,description}:{label:string;title:string;description:string}){return <div className="page-intro container"><Label>{label}</Label><h1>{title}</h1><p>{description}</p></div>}
 
-function PortfolioPage() {
+function AboutPage() {
   return <>
-    <PageIntro label="WORK & EXPERIENCE / LINXI TANG" title="作品与经历。" description="从智能体工程到真实产品，从研究探索到持续交付。这里记录我的项目、经历与思考。"/>
-    <TrustStrip/><Projects full/><About/><Skills/><ResearchTeaser/><Creator/><Contact/>
+    <PageIntro label="ABOUT / LINXI TANG" title="关于我，以及一路的积累。" description="AI Agent 与 AI 应用研发。以工程连接想法与产品，在实践中持续学习。"/>
+    <TrustStrip/><About/><Skills/><ResearchTeaser/><Creator/><Contact/>
   </>
 }
 
@@ -122,11 +116,13 @@ export default function App({path}:{path:string}) {
   const filename=path.replace(/\/$/,'').split('/').pop()||'index.html'
   const id=filename.replace(/\.html$/,'')
   const project=projects.find(p=>p.id===id)
-  const known=project||['index','projects','papers','honors'].includes(id)
+  const known=project||['index','projects','about','papers','honors'].includes(id)
   const [image,setImage]=useState<{src:string;alt:string}|null>(null)
   useEffect(()=>{
-    if(id==='index'&&['#work','#about','#research','#creator','#contact'].includes(window.location.hash)) {
-      window.location.replace(`/projects.html${window.location.hash}`)
+    const hash=window.location.hash
+    if(id==='index'&&hash==='#work') window.location.replace('/projects.html#work')
+    else if(['index','projects'].includes(id)&&['#about','#research','#creator','#contact'].includes(hash)) {
+      window.location.replace(`/about.html${hash}`)
     }
   },[id])
   useEffect(()=>{
@@ -144,7 +140,8 @@ export default function App({path}:{path:string}) {
     {id!=='index'&&<Header page={project?'projects':id}/>}
     <main id="main">
       {project?<CaseStudy project={project}/>
-        :id==='projects'?<PortfolioPage/>
+        :id==='projects'?<ProjectShowcase/>
+        :id==='about'?<AboutPage/>
         :id==='papers'?<PapersPage/>
         :id==='honors'?<HonorsPage openImage={setImage}/>
         :known?<CinematicHero/>

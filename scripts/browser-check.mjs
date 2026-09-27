@@ -6,7 +6,7 @@ const base=process.env.TEST_URL||'http://127.0.0.1:4173'
 const browser=await chromium.launch({headless:true,...(process.env.CHROME_PATH?{executablePath:process.env.CHROME_PATH}:{})})
 await mkdir('artifacts',{recursive:true})
 const failures=[];const checks=[]
-const pages=['/','/projects.html','/video-agent.html','/aura.html','/minicode.html','/shortdrama.html','/papers.html','/honors.html','/404.html']
+const pages=['/','/projects.html','/about.html','/video-agent.html','/aura.html','/minicode.html','/shortdrama.html','/papers.html','/honors.html','/404.html']
 function expect(condition,message){if(!condition)failures.push(message);else checks.push(message)}
 try{
   for(const width of [1440,768,390]){

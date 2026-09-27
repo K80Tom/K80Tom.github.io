@@ -24,10 +24,11 @@ for (const file of files) {
     } catch { failures.push(`${file}: missing file ${raw}`) }
   }
 }
-const expected = ['index','projects','video-agent','aura','minicode','shortdrama','papers','honors','404']
+const expected = ['index','projects','about','video-agent','aura','minicode','shortdrama','papers','honors','404']
 for (const page of expected) if (!files.includes(`${page}.html`)) failures.push(`Missing page ${page}`)
 const checks = {
-  'projects.html': ['录屏智能体','DearAura','MiniCode','AI 短剧生产平台','id="about"','id="research"','id="creator"','id="contact"','GPA 3.4/4.0','ENGINEERING TOOLKIT','1,903'],
+  'projects.html': ['录屏智能体','DearAura','MiniCode','AI 短剧生产平台','project-carousel','href="/video-agent.html"','href="/aura.html"','href="/minicode.html"','href="/shortdrama.html"'],
+  'about.html': ['id="about"','id="research"','id="creator"','id="contact"','GPA 3.4/4.0','ENGINEERING TOOLKIT','1,903'],
   'video-agent.html': ['录屏智能体整体设计与开发','43,222','32,397','等待'],
   'aura.html': ['CAS','ConversationProjection','结构化用户记忆','反馈业务后端'],
   'minicode.html': ['五层','85%','SWE-bench','uv run mewcode'],

@@ -3,6 +3,7 @@ import { hydrateRoot, createRoot } from 'react-dom/client'
 import App from './App'
 import './styles.css'
 import './cinematic.css'
+import './projects.css'
 const root = document.getElementById('root')!
 const app = <React.StrictMode><App path={window.location.pathname} /></React.StrictMode>
 if (root.hasChildNodes()) hydrateRoot(root, app)

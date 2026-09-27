@@ -5,8 +5,8 @@ import { Button } from './ui/button'
 const videoUrl = 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260314_131748_f2ca2a28-fed7-44c8-b9a9-bd9acdd5ec31.mp4'
 const displayFont = "'Instrument Serif', 'Noto Serif SC', 'Songti SC', serif"
 const links = [
-  ['首页', '/index.html'], ['作品', '/projects.html'], ['关于', '/projects.html#about'],
-  ['研究', '/papers.html'], ['联系我', '/projects.html#contact'],
+  ['首页', '/index.html'], ['作品', '/projects.html'], ['关于', '/about.html'],
+  ['研究', '/papers.html'], ['联系我', '/about.html#contact'],
 ]
 
 export function CinematicHero() {
@@ -122,7 +122,7 @@ export function CinematicHero() {
 
     <div className="cinema-bottom relative z-10 mx-auto flex w-full max-w-7xl items-center justify-between px-8">
       <span className="cinema-location">BASED IN CHINA <span>·</span> 2027 届</span>
-      <a className="cinema-scroll" href="/projects.html"><span>作品与经历</span><ArrowUpRight size={13}/></a>
+      <a className="cinema-scroll" href="/projects.html"><span>探索精选作品</span><ArrowUpRight size={13}/></a>
       <div className="cinema-controls flex items-center gap-2">
         <button type="button" onClick={toggleTheme} aria-label={light ? '切换深色主题' : '切换浅色主题'} title={light ? '切换深色主题' : '切换浅色主题'}>{light ? <Moon size={15}/> : <Sun size={15}/>}</button>
         <button type="button" onClick={toggleMotion} aria-label={failed ? '重试背景视频' : paused || blocked ? '启用动效' : '暂停动效'} title={failed ? '重试背景视频' : paused || blocked ? '播放背景视频' : '暂停背景视频'}>{paused || blocked || failed ? <Play size={14}/> : <Pause size={14}/>}<span>{failed ? 'RETRY' : paused || blocked ? 'PLAY' : 'PAUSE'}</span></button>
