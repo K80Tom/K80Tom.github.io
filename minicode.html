@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#0b1010" />
+<title>MiniCode · Agent Runtime — 汤林夕</title>
+<meta name="description" content="终端 AI 编程助手：ReAct、MCP、上下文管理、跨会话记忆与五层权限防御。" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="canonical" href="https://k80tom.github.io/minicode.html"/><meta property="og:type" content="website"/><meta property="og:locale" content="zh_CN"/><meta property="og:title" content="MiniCode · Agent Runtime — 汤林夕"/><meta property="og:description" content="终端 AI 编程助手：ReAct、MCP、上下文管理、跨会话记忆与五层权限防御。"/><meta property="og:url" content="https://k80tom.github.io/minicode.html"/><meta property="og:image" content="https://k80tom.github.io/assets/avatar.jpg"/><meta name="twitter:card" content="summary"/>
+  <script type="module" crossorigin src="/static/index-CtecG8B3.js"></script>
+  <link rel="stylesheet" crossorigin href="/static/index-D2PgShvQ.css">
+</head>
+<body><div id="root"><a class="skip-link" href="#main">跳到主要内容</a><div id="top"></div><header class="site-header"><div class="container nav-row"><a class="brand" href="/index.html" aria-label="汤林夕，返回首页"><img src="/favicon.svg" width="31" height="31" alt=""/><span>汤林夕<span class="brand-suffix mono"> / LINXI</span></span></a><nav id="main-navigation" class="main-nav " aria-label="主导航"><a href="/index.html">首页</a><a href="/projects.html" aria-current="page">作品</a><a href="/papers.html">研究</a><a href="/honors.html">荣誉</a><a href="/index.html#about">关于</a></nav><div class="nav-actions"><button class="icon-button motion-toggle" type="button" aria-label="暂停动效" title="暂停动效"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pause "><rect width="4" height="16" x="6" y="4"></rect><rect width="4" height="16" x="14" y="4"></rect></svg></button><button class="icon-button" type="button" aria-label="切换浅色主题" title="切换浅色主题"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun "><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg></button><a class="nav-contact" href="mailto:1803554228@qq.com">联系我 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right "><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></a><button class="icon-button menu-toggle" id="menu-toggle" type="button" aria-controls="main-navigation" aria-expanded="false" aria-label="打开导航"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu "><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button></div></div></header><main id="main"><section class="case-hero container blue"><a href="/projects.html" class="back-link"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left "><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>所有作品</a><div class="eyebrow mono">03<!-- --> / <!-- -->OPEN SOURCE / AGENT RUNTIME</div><h1>MiniCode<span>A coding agent, from scratch</span></h1><p class="case-headline">不止会写代码，更能把任务做完。</p><p class="case-summary">基于 ReAct 的终端 AI 编程助手。独立设计并实现五层 Agent Runtime，让模型、工具、上下文、权限与验证形成可持续运行的编程闭环。</p><div class="case-meta"><div><span>COMPANY</span><b>亚信科技</b></div><div><span>PERIOD</span><b>2025.12 — 2026.04</b></div><div><span>MY ROLE</span><b>Agent Runtime 框架设计与实现</b></div></div><div class="case-scene"><div class="terminal-scene scene-panel"><div class="terminal-bar"><div class="traffic-lights"><i></i><i></i><i></i></div><span class="mono">minicode — zsh</span><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-terminal "><polyline points="4 17 10 11 4 5"></polyline><line x1="12" x2="20" y1="19" y2="19"></line></svg></div><div class="terminal-lines mono"><div class="input">$ mewcode</div><div class="muted">MiniCode / Agent Runtime</div><div class="input">› 帮我分析这个项目，并修复问题</div><div class="plan">01  读取项目上下文</div><div class="plan">02  定位相关文件与工具</div><div class="plan">03  提出修改并执行验证</div><div class="success">✓ 思考 → 行动 → 观察 → 修复</div><span class="terminal-cursor"></span></div><div class="terminal-footer"><span class="mono">REACT LOOP · MCP · MEMORY</span><button type="button"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-play "><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>重播示意</button></div></div></div><div class="case-under"><div class="tag-row"><span>Python</span><span>ReAct</span><span>MCP</span><span>Multi-Agent</span><span>SWE-bench</span></div><div class="case-links"><a href="https://github.com/K80Tom/MiniCode" target="_blank" rel="noopener noreferrer">查看 GitHub 源码<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link "><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg></a></div></div></section><div class="case-body container"><aside class="case-toc"><span class="tiny-label">IN THIS CASE</span><a href="#decisions">设计与取舍</a><a href="#details">实现细节</a><a href="#install">快速开始</a><a href="/shortdrama.html">下一个项目 <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right "><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></a></aside><div class="case-content"><section id="decisions" class="decision-section"><div class="eyebrow mono">DESIGN DECISIONS</div><h2>让系统可用的，<br/>是这些具体的选择。</h2><article class="decision"><span class="mono">0<!-- -->1</span><div><h3>长程任务中的上下文管理</h3><p>对历史对话与工具结果进行摘要归档，在检查点截断重置，解决 ReAct 循环累计缓存读取量增长的问题；结合 JSONL 持久化与跨会话记忆恢复任务。</p></div></article><article class="decision"><span class="mono">0<!-- -->2</span><div><h3>更少的无效打断，清晰的权限边界</h3><p>危险命令识别、路径沙箱、读前检查、文件修改状态校验与分级确认组成五层防御。按需加载 MCP 工具描述，为真正的任务上下文留出空间。</p></div></article><article class="decision"><span class="mono">0<!-- -->3</span><div><h3>并行协作与评测驱动迭代</h3><p>以 Git WorkTree 隔离并行任务文件，结合 SWE-bench-Live 编程任务与信息保留测试，验证定位、修改、修复和上下文压缩能力。</p></div></article></section><section id="details"><div class="eyebrow mono">UNDER THE HOOD</div><p class="evidence-note">以下保留项目的完整功能、技术架构与原评测记录。数据对应特定项目场景，不代表所有任务的通用结果。</p><div class="legacy-content"><section id="stats">
+  <div class="wrap">
+    <div class="stats reveal">
+      <div class="stat"><b>-85%</b><span>MCP 工具描述 Token 占用</span></div>
+      <div class="stat"><b>8h+</b><span>连续编程会话上下文不丢失</span></div>
+      <div class="stat"><b>30→5</b><span>单会话权限弹窗次数</span></div>
+      <div class="stat"><b>-60%</b><span>跨文件重构任务耗时</span></div>
+    </div>
+  </div>
+</section>
+<section id="features">
+  <div class="wrap">
+    <div class="sec-title reveal"><h2>核心<i>特性</i></h2><p>围绕 Harness 五要素设计：上下文管理 · 工具接口 · 约束 · 验证 · 纠正</p></div>
+    <div class="feat-grid">
+      <div class="feat reveal">
+        <div class="f-icon">🧠</div>
+        <h3>两层渐进式上下文压缩</h3>
+        <p>解决 ReAct 循环累计缓存读取量二次方增长问题：第一层对历史对话和工具结果做摘要归档，第二层在检查点处截断重置，将上下文从线性增长降为分段稳态。</p>
+        <span class="metric">8h+ 连续会话不丢失</span>
+      </div>
+      <div class="feat reveal">
+        <div class="f-icon">🛡️</div>
+        <h3>五层权限防御体系</h3>
+        <p>危险命令识别、路径沙箱、读前检查、文件修改状态校验、分级权限确认，可选启用 OS 级沙箱兜底，平衡 Agent 自动化能力与本地开发安全。</p>
+        <span class="metric">弹窗 30 次 → 5 次以内</span>
+      </div>
+      <div class="feat reveal">
+        <div class="f-icon">🔌</div>
+        <h3>MCP 工具延迟加载</h3>
+        <p>百级工具场景下按需加载工具描述，避免上下文窗口被工具定义挤占，支持 MCP 协议生态的工具扩展。</p>
+        <span class="metric">Token 占用 -85%</span>
+      </div>
+      <div class="feat reveal">
+        <div class="f-icon">🤝</div>
+        <h3>多 Agent 并行协作</h3>
+        <p>多 Agent 并行协作 + Git WorkTree 文件级隔离机制，防止并行文件干扰，突破单 Agent 上下文窗口瓶颈。</p>
+        <span class="metric">跨文件重构耗时 -60%</span>
+      </div>
+      <div class="feat reveal">
+        <div class="f-icon">💾</div>
+        <h3>跨会话记忆系统</h3>
+        <p>JSONL 持久化、LLM 自动记忆提取、项目级指令文件加载和历史任务恢复，让 Agent 记住你的项目上下文。</p>
+        <span class="metric">信息保留率 17% → 100%</span>
+      </div>
+      <div class="feat reveal">
+        <div class="f-icon">📊</div>
+        <h3>评测驱动优化</h3>
+        <p>基于 SWE-bench-Live 搭建 Agent 编程任务评测流水线，验证 bug 定位、代码修改和测试修复能力，用评测结果反向优化 Prompt 与工具调用策略。</p>
+        <span class="metric">SWE-bench-Live 验证</span>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="arch">
+  <div class="wrap">
+    <div class="sec-title reveal"><h2>五层<i>架构</i></h2><p>独立设计并实现的分层 Agent Runtime</p></div>
+    <div class="arch-card reveal">
+      <div class="arch-layer"><div class="num">L1</div><div><h4>模型适配层 · Model Adapter</h4><p>支持 OpenAI / Anthropic / OpenAI-Compatible 等多模型接入，统一接口抽象</p></div></div>
+      <div class="arch-layer"><div class="num">L2</div><div><h4>Agent 推理循环层 · ReAct Loop</h4><p>「思考 → 工具调用 → 观察 → 修复」的自动化编程闭环</p></div></div>
+      <div class="arch-layer"><div class="num">L3</div><div><h4>工具注册与调用层 · Tool Registry</h4><p>文件读写 / 代码编辑 / 命令执行 / Glob/Grep 检索 / MCP 工具接入</p></div></div>
+      <div class="arch-layer"><div class="num">L4</div><div><h4>上下文管理层 · Context Manager</h4><p>两层渐进式压缩 + 跨会话记忆 + 项目级指令文件加载</p></div></div>
+      <div class="arch-layer"><div class="num">L5</div><div><h4>权限控制层 · Permission Guard</h4><p>危险命令识别 / 路径沙箱 / 分级权限确认 / OS 级沙箱兜底</p></div></div>
+    </div>
+  </div>
+</section>
+</div></section><section id="install" class="install-guide"><div class="eyebrow mono">QUICK START</div><h2>在终端里，开始一次协作。</h2><p>Python 3.11+。安装 uv，克隆项目并同步依赖，再按仓库说明在本地配置模型。</p><div class="code-block"><div><span class="mono">0<!-- -->1<!-- --> / <!-- -->INSTALL UV</span><button type="button"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy "><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg> <!-- -->复制命令</button></div><pre><code>curl -LsSf https://astral.sh/uv/install.sh | sh</code></pre></div><div class="code-block"><div><span class="mono">0<!-- -->2<!-- --> / <!-- -->SYNC PROJECT</span><button type="button"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy "><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg> <!-- -->复制命令</button></div><pre><code>git clone https://github.com/K80Tom/MiniCode.git
+cd MiniCode
+uv sync</code></pre></div><div class="code-block"><div><span class="mono">0<!-- -->3<!-- --> / <!-- -->RUN MINICODE</span><button type="button"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy "><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg> <!-- -->复制命令</button></div><pre><code>uv run mewcode
+uv run mewcode -p &quot;帮我分析这个项目&quot;
+uv run mewcode --remote</code></pre></div><p>启动前在 <code>.mewcode/config.yaml</code> 中配置自己的模型服务；Remote 模式默认使用本地地址 <code>http://localhost:18888</code>。安装和配置以 <a href="https://github.com/K80Tom/MiniCode" target="_blank" rel="noopener noreferrer">项目 README</a> 为准。</p></section></div></div><a class="next-project container amber" href="/shortdrama.html"><div><div class="eyebrow mono">NEXT CASE / <!-- -->04</div><h2>AI 短剧生产平台</h2><p>把创作流程，连接成生产链路。</p></div><svg xmlns="http://www.w3.org/2000/svg" width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right "><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></a></main><footer class="site-footer container"><a href="/index.html" class="footer-brand">汤林夕<span class="mono"> / AI AGENT ENGINEER</span></a><span>© 2026 · 保持好奇，持续构建。</span><a href="#top" class="mono">BACK TO TOP ↑</a></footer><dialog class="lightbox" aria-label="图片预览"><button type="button" class="lightbox-close icon-button" autofocus="" aria-label="关闭图片预览"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x "><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button></dialog></div></body>
+</html>

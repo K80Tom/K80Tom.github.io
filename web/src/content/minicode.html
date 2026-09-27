@@ -1,0 +1,65 @@
+<section id="stats">
+  <div class="wrap">
+    <div class="stats reveal">
+      <div class="stat"><b>-85%</b><span>MCP 工具描述 Token 占用</span></div>
+      <div class="stat"><b>8h+</b><span>连续编程会话上下文不丢失</span></div>
+      <div class="stat"><b>30→5</b><span>单会话权限弹窗次数</span></div>
+      <div class="stat"><b>-60%</b><span>跨文件重构任务耗时</span></div>
+    </div>
+  </div>
+</section>
+<section id="features">
+  <div class="wrap">
+    <div class="sec-title reveal"><h2>核心<i>特性</i></h2><p>围绕 Harness 五要素设计：上下文管理 · 工具接口 · 约束 · 验证 · 纠正</p></div>
+    <div class="feat-grid">
+      <div class="feat reveal">
+        <div class="f-icon">🧠</div>
+        <h3>两层渐进式上下文压缩</h3>
+        <p>解决 ReAct 循环累计缓存读取量二次方增长问题：第一层对历史对话和工具结果做摘要归档，第二层在检查点处截断重置，将上下文从线性增长降为分段稳态。</p>
+        <span class="metric">8h+ 连续会话不丢失</span>
+      </div>
+      <div class="feat reveal">
+        <div class="f-icon">🛡️</div>
+        <h3>五层权限防御体系</h3>
+        <p>危险命令识别、路径沙箱、读前检查、文件修改状态校验、分级权限确认，可选启用 OS 级沙箱兜底，平衡 Agent 自动化能力与本地开发安全。</p>
+        <span class="metric">弹窗 30 次 → 5 次以内</span>
+      </div>
+      <div class="feat reveal">
+        <div class="f-icon">🔌</div>
+        <h3>MCP 工具延迟加载</h3>
+        <p>百级工具场景下按需加载工具描述，避免上下文窗口被工具定义挤占，支持 MCP 协议生态的工具扩展。</p>
+        <span class="metric">Token 占用 -85%</span>
+      </div>
+      <div class="feat reveal">
+        <div class="f-icon">🤝</div>
+        <h3>多 Agent 并行协作</h3>
+        <p>多 Agent 并行协作 + Git WorkTree 文件级隔离机制，防止并行文件干扰，突破单 Agent 上下文窗口瓶颈。</p>
+        <span class="metric">跨文件重构耗时 -60%</span>
+      </div>
+      <div class="feat reveal">
+        <div class="f-icon">💾</div>
+        <h3>跨会话记忆系统</h3>
+        <p>JSONL 持久化、LLM 自动记忆提取、项目级指令文件加载和历史任务恢复，让 Agent 记住你的项目上下文。</p>
+        <span class="metric">信息保留率 17% → 100%</span>
+      </div>
+      <div class="feat reveal">
+        <div class="f-icon">📊</div>
+        <h3>评测驱动优化</h3>
+        <p>基于 SWE-bench-Live 搭建 Agent 编程任务评测流水线，验证 bug 定位、代码修改和测试修复能力，用评测结果反向优化 Prompt 与工具调用策略。</p>
+        <span class="metric">SWE-bench-Live 验证</span>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="arch">
+  <div class="wrap">
+    <div class="sec-title reveal"><h2>五层<i>架构</i></h2><p>独立设计并实现的分层 Agent Runtime</p></div>
+    <div class="arch-card reveal">
+      <div class="arch-layer"><div class="num">L1</div><div><h4>模型适配层 · Model Adapter</h4><p>支持 OpenAI / Anthropic / OpenAI-Compatible 等多模型接入，统一接口抽象</p></div></div>
+      <div class="arch-layer"><div class="num">L2</div><div><h4>Agent 推理循环层 · ReAct Loop</h4><p>「思考 → 工具调用 → 观察 → 修复」的自动化编程闭环</p></div></div>
+      <div class="arch-layer"><div class="num">L3</div><div><h4>工具注册与调用层 · Tool Registry</h4><p>文件读写 / 代码编辑 / 命令执行 / Glob/Grep 检索 / MCP 工具接入</p></div></div>
+      <div class="arch-layer"><div class="num">L4</div><div><h4>上下文管理层 · Context Manager</h4><p>两层渐进式压缩 + 跨会话记忆 + 项目级指令文件加载</p></div></div>
+      <div class="arch-layer"><div class="num">L5</div><div><h4>权限控制层 · Permission Guard</h4><p>危险命令识别 / 路径沙箱 / 分级权限确认 / OS 级沙箱兜底</p></div></div>
+    </div>
+  </div>
+</section>

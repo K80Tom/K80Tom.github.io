@@ -1,0 +1,190 @@
+<section>
+  <div class="wrap">
+
+
+    <div class="card reveal">
+      <div class="paper-hero">
+        <div class="venue">CSCWD 2026 · CCF-C · IEEE Xplore 收录</div>
+        <h2>Lightweight Medical Image Segmentation Via Cross-Image Global Structural Filtering Distillation</h2>
+        <div class="paper-meta">
+          <span>第一作者</span><span>西南科技大学</span><span>IEEE Xplore 收录</span><span>论文号 11582120</span>
+        </div>
+        <div class="paper-nav">
+          <a href="https://doi.org/10.1109/CSCWD68734.2026.11582120" target="_blank" rel="noopener noreferrer">DOI: 10.1109/CSCWD68734.2026.11582120 →</a>
+          <a href="/assets/paper-cscwd.pdf" target="_blank" rel="noopener noreferrer">📄 论文全文 PDF →</a>
+        </div>
+      </div>
+
+      <h4 class="block">摘要</h4>
+      <p class="abstract">深度学习在医学图像分割上精度很高，但模型参数量大，难以部署到边缘设备。知识蒸馏是重要的模型压缩手段，但现有方法在医学图像上存在关键局限：<b>解剖结构类内形态差异大、类间对比度低，且主流技术忽略了全局语义关系、无法抑制特征冗余</b>。本文提出跨图像关系框架 <b>CIGFD（Cross-Image Global Structural Filtering Distillation）</b>，通过特征过滤机制在像素与区域双粒度去除冗余、捕捉关键关系线索，实现跨图像精炼全局结构的高效迁移。在 BTCV、Synapse、FLARE 三个公开数据集上一致超越对比方法，为资源受限的边缘设备部署精准高效的医学图像分割模型提供了可行路径。</p>
+      <div>
+        <span class="kw">跨图像结构关系</span><span class="kw">医学图像分割</span><span class="kw">知识蒸馏</span><span class="kw">轻量模型</span><span class="kw">特征过滤</span>
+      </div>
+
+      <h4 class="block">研究动机</h4>
+      <p>现有分割蒸馏方法（SKD、IFVD、CWD 等）主要关注单张图像的内部结构信息，忽略了全局上下文语义；EMKD 虽引入对比学习，但比较范围局限于单张图像内的类内比较。当模型仅依赖单张图像的内部结构信息时，会导致<b>同一器官不同区域间的语义错位</b>，以及<b>难以区分形状或位置相似的器官</b>——在处理不同切片或视角的图像时，模型无法保持对器官结构的一致理解，导致分割结果不一致、精度下降。医学图像高变异性、高噪声的特性（同一器官在不同图像中形态纹理差异显著），迫切需要一种能精确过滤并传递跨图像全局知识的蒸馏方法。</p>
+
+      <h4 class="block">方法框架（三大核心模块）</h4>
+      <p>CIGFD 框架依次实施三种蒸馏策略：① 学习教师的特征紧致图获取关键局部细节；② 通过特征过滤从教师中间层传递关键信息，再从过滤后的特征中提取器官特异向量，经跨图像对比蒸馏构建全局上下文语义；③ 通过 logits 蒸馏对齐输出分布。</p>
+
+      <h4 class="block">模块 A：注意力特征紧致蒸馏（AFCD）</h4>
+      <p>针对师生网络通道特征不匹配导致的无效学习，引入基于通道注意力机制的 AFC 模块，将某层的多通道特征整合为信息丰富的特征紧致图。具体流程：提取师生中间层特征 F_t 和 F_s，将学生特征缩放至与教师相同空间尺寸；对每个通道特征图计算全局平均池化（GAP）得到全局激活响应，经 softmax 归一化为通道权重 λ；最后用权重融合多通道特征为紧致图：</p>
+      <div class="formula">φ(ε) = (1/c) Σ_k λ_k · ‖ε_k‖₂</div>
+      <p>用 MSE 损失将教师的注意力特征紧致图蒸馏给学生，促使学生生成与教师相似的紧致图，有效蒸馏通道维特征紧致策略。</p>
+
+      <h4 class="block">模块 B：特征过滤模块（FFM）</h4>
+      <p>医学图像分割中冗余信息远多于有效信息，且内脏器官与软组织可能呈现相似特征、缺乏明确的器官判别性。将教师的所有信息传递给学生会导致资源浪费。FFM 先经 AFC 模块映射特征，再用 sigmoid 函数将前景激活目标约束到 [0,1]，最后引入阈值函数过滤不重要的特征（τ=0.5）：</p>
+      <div class="formula">f(x) = x  (x ≥ τ),  0  (x < τ)</div>
+      <div class="formula">M_F(e) = f(p_f(M))</div>
+      <p>过滤后的特征紧致图只保留高激活的前景区域，为后续全局结构构建奠定基础，防止医学图像中普遍存在的噪声信息产生负迁移。</p>
+
+      <h4 class="block">模块 C：高效跨图像对比蒸馏（ECID）</h4>
+      <p>由于图像解剖方向的差异，同类器官也会呈现形状和纹理变化，单张图像的局部结构不足以区分和完整分割器官。ECID 将过滤后的师生特征与对应器官掩码相乘，提取器官区域掩码向量：</p>
+      <div class="formula">R_c(M_F) = Σ_h Σ_w (M_F · m̂_c)_{h,w} / Σ_h Σ_w m̂_c</div>
+      <p>将 B×C 维度展平实现图像特征展平，计算学生与教师类别特征的相似度矩阵，用 InfoNCE 损失进行对比学习——对角线元素（同器官）相似度被放大，非对角线（不同器官）被抑制，从而增强学生网络的器官判别性和分割完整性。</p>
+
+      <h4 class="block">实验设置</h4>
+      <p>数据集：<b>BTCV</b>（13 器官）、<b>Synapse</b>（8 器官）、<b>FLARE</b>（4 器官）；教师网络：RA-UNet / ResNet34-UNet；学生网络：ENet / ResNet-18；优化器 Adam（初始学习率 1×10⁻³，余弦退火至 1×10⁻⁶），batch size=4，训练 50 epochs；数据增强：随机缩放、旋转；硬件：NVIDIA RTX 4090 (24GB)。评估指标：Dice 与 mIoU（所有类别取平均）。对比方法：CWD、EMKD、CIRKD、BPKD。总损失函数：</p>
+      <div class="formula">L_total = L_SEG + α₁·L_AFCD + α₂·L_ECID + β·L_LD</div>
+      <p>超参数 α₁=0.5，α₂=0.1，β=0.2，特征过滤阈值 τ=0.5。</p>
+
+      <h4 class="block">主要结果（教师 RA-UNET → 学生 ENET）</h4>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>方法</th><th>BTCV Dice</th><th>BTCV mIoU</th><th>Synapse Dice</th><th>Synapse mIoU</th><th>FLARE Dice</th><th>FLARE mIoU</th></tr>
+          <tr><td>学生基线 ENET</td><td>83.40</td><td>80.03</td><td>90.17</td><td>87.73</td><td>84.75</td><td>81.80</td></tr>
+          <tr><td>CWD</td><td>83.67 <span class="up">▲0.27</span></td><td>80.27 <span class="up">▲0.24</span></td><td>88.86 <span class="down">▼1.31</span></td><td>85.10 <span class="down">▼2.63</span></td><td>85.11 <span class="up">▲0.36</span></td><td>81.97 <span class="up">▲0.17</span></td></tr>
+          <tr><td>EMKD</td><td>84.74 <span class="up">▲1.34</span></td><td>81.61 <span class="up">▲1.58</span></td><td>90.81 <span class="up">▲0.64</span></td><td>87.87 <span class="up">▲0.14</span></td><td>85.88 <span class="up">▲1.13</span></td><td>82.80 <span class="up">▲1.00</span></td></tr>
+          <tr><td>CIRKD</td><td>84.58 <span class="up">▲1.18</span></td><td>81.35 <span class="up">▲1.32</span></td><td>90.23 <span class="up">▲0.06</span></td><td>87.49 <span class="down">▼0.24</span></td><td>86.27 <span class="up">▲1.52</span></td><td>83.21 <span class="up">▲1.41</span></td></tr>
+          <tr><td>BPKD</td><td>84.13 <span class="up">▲0.73</span></td><td>80.64 <span class="up">▲0.61</span></td><td>89.01 <span class="down">▼1.16</span></td><td>85.56 <span class="down">▼2.17</span></td><td>86.24 <span class="up">▲1.49</span></td><td>82.96 <span class="up">▲1.16</span></td></tr>
+          <tr class="ours"><td class="best">CIGFD（本文）</td><td class="best">85.46 <span class="up">▲2.06</span></td><td class="best">82.42 <span class="up">▲2.39</span></td><td class="best">92.13 <span class="up">▲1.96</span></td><td class="best">89.17 <span class="up">▲1.44</span></td><td class="best">86.98 <span class="up">▲2.23</span></td><td class="best">83.97 <span class="up">▲2.17</span></td></tr>
+        </table>
+      </div>
+      <p>CIGFD 在所有模型组合上均取得更显著的提升，Dice 与 mIoU 提升至少 0.29%，最大达 <b>3.36%（Dice）与 3.16%（mIoU）</b>。特别值得注意的是，在 BTCV 数据集（ResNet34-UNet→ENet）上 CWD 和 BPKD 出现性能下降，Synapse 数据集上所有对比方法均出现不同程度退化，而 CIGFD 保持优秀的泛化能力与架构独立性。<b>特征过滤机制还带来训练效率的显著提升</b>——CIGFD 的 FPS（61.24/61.54）在所有方法中最高，凸显实际部署价值。</p>
+
+      <h4 class="block">消融实验（教师 RA-UNET → 学生 ENET）</h4>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>配置</th><th>BTCV Dice</th><th>BTCV mIoU</th><th>Synapse Dice</th><th>Synapse mIoU</th><th>FLARE Dice</th><th>FLARE mIoU</th></tr>
+          <tr><td>学生基线</td><td>83.40</td><td>80.03</td><td>90.17</td><td>87.73</td><td>84.75</td><td>81.80</td></tr>
+          <tr><td>+ LD（logits 蒸馏）</td><td>84.05 <span class="up">▲0.65</span></td><td>80.45 <span class="up">▲0.42</span></td><td>90.31 <span class="up">▲0.14</span></td><td>87.81 <span class="up">▲0.08</span></td><td>84.87 <span class="up">▲0.12</span></td><td>81.94 <span class="up">▲0.14</span></td></tr>
+          <tr><td>+ AFCD</td><td>84.47 <span class="up">▲1.07</span></td><td>81.27 <span class="up">▲1.24</span></td><td>90.83 <span class="up">▲0.66</span></td><td>88.01 <span class="up">▲0.28</span></td><td>85.18 <span class="up">▲0.43</span></td><td>82.14 <span class="up">▲0.34</span></td></tr>
+          <tr><td>+ ECID</td><td>84.71 <span class="up">▲1.31</span></td><td>81.75 <span class="up">▲1.72</span></td><td>90.95 <span class="up">▲0.78</span></td><td>88.35 <span class="up">▲0.62</span></td><td>85.46 <span class="up">▲0.71</span></td><td>82.32 <span class="up">▲0.52</span></td></tr>
+          <tr><td>+ AFCD + LD</td><td>84.87 <span class="up">▲1.47</span></td><td>81.91 <span class="up">▲1.88</span></td><td>91.19 <span class="up">▲1.02</span></td><td>88.98 <span class="up">▲1.25</span></td><td>85.69 <span class="up">▲0.94</span></td><td>82.72 <span class="up">▲0.92</span></td></tr>
+          <tr><td>+ ECID + LD</td><td>84.99 <span class="up">▲1.59</span></td><td>81.71 <span class="up">▲1.68</span></td><td>90.79 <span class="up">▲0.62</span></td><td>88.47 <span class="up">▲0.74</span></td><td>85.73 <span class="up">▲0.98</span></td><td>82.43 <span class="up">▲0.63</span></td></tr>
+          <tr class="ours"><td class="best">+ AFCD + ECID + LD（完整）</td><td class="best">85.46 <span class="up">▲2.06</span></td><td class="best">82.42 <span class="up">▲2.39</span></td><td class="best">92.13 <span class="up">▲1.96</span></td><td class="best">89.17 <span class="up">▲1.44</span></td><td class="best">86.98 <span class="up">▲2.23</span></td><td class="best">83.97 <span class="up">▲2.17</span></td></tr>
+        </table>
+      </div>
+      <p>单独 LD 提升有限（最大 0.65%），AFCD 带来实质提升（最大 1.07%），ECID 同样显著（最大 1.31%）；多模块集成呈现明显协同效应，三模块完整集成达到最大提升 2.06%，验证了「局部细节保留 + 特征紧致增强 + 跨图像对比学习」共同构成完整有效蒸馏框架的设计理念。</p>
+
+      <h4 class="block">超参数敏感性分析</h4>
+      <p>α₁、α₂、β 对模型性能影响极小，方法对这些参数鲁棒；特征过滤阈值 τ 影响显著——τ 过高只保留高显著性特征响应，可能丢失关键语义信息；τ 过低保留大量非显著特征，引入冗余噪声。实验建议 τ 取值范围 <b>[0.4, 0.6]</b> 以平衡细节保留与噪声抑制。</p>
+
+      <h4 class="block">定性分析</h4>
+      <p>可视化结果显示，CIGFD 的分割结果更完整、细节更精细（边界更锐利），更接近 ground truth——证明该蒸馏方法能让学生网络有效获取结构知识与细节知识，实现更优的分割性能。</p>
+
+      <div>
+        <a class="btn btn-primary" href="/assets/paper-cscwd.pdf" target="_blank" rel="noopener noreferrer">📄 阅读论文全文 PDF</a>
+      </div>
+    </div>
+
+
+    <div class="card reveal">
+      <div class="paper-hero">
+        <div class="venue">ICONIP 2026 · CCF-C · 已录用</div>
+        <h2>Lightweight Medical Image Segmentation via Cross-Image Region Contrastive and Global Boundary Distillation</h2>
+        <div class="paper-meta">
+          <span>第一作者</span><span>西南科技大学</span><span>已录用</span>
+        </div>
+        <div class="paper-nav">
+          <a href="/assets/paper-iconip.pdf" target="_blank" rel="noopener noreferrer">📄 论文全文 PDF →</a>
+        </div>
+      </div>
+
+      <h4 class="block">摘要</h4>
+      <p class="abstract">深度学习模型在医学图像分割上精度很高，但参数量大、计算昂贵，难以临床部署。知识蒸馏是有效的模型压缩手段，但现有方法面临两大挑战：<b>① 解剖结构类内形态差异大、类间对比度低；② 器官尺寸差异悬殊导致严重类别不平衡</b>。本文提出 <b>CIRGBD</b> 蒸馏框架，包含两个互补模块：<b>跨图像区域对比蒸馏（CIRD）</b>——通过最大化批内区域类内相似度、最小化类间相似度来增强特征判别性；<b>全局边界蒸馏（GBD）</b>——提取全局边界掩码并对所有器官边界统一赋权，有效缓解大器官主导问题。在 BTCV、Synapse、FLARE 三个基准数据集上，CIRGBD 一致提升轻量学生模型性能，mIoU 最高提升 <b>4.43%</b>。</p>
+      <div>
+        <span class="kw">医学图像分割</span><span class="kw">知识蒸馏</span><span class="kw">类别区分</span><span class="kw">边界对齐</span>
+      </div>
+
+      <h4 class="block">研究动机</h4>
+      <p>现有分割蒸馏方法（SKD、IFVD、CWD 等）主要关注空间信息对齐，忽略了类内/类间信息与边界对齐；EMKD、CIRKD 虽引入对比学习，但仅局限于单张图像内的类内比较，且未显式建模边界；BPKD 按类别独立对齐边界，在 CityScapes 等类别尺寸差异小的数据集上有效，但在医学图像中，器官尺寸差异悬殊导致大器官的边界像素主导蒸馏过程，小器官边界模糊。医学图像分割面临两大特有挑战：</p>
+      <div class="hl">
+        <div><b>挑战 ①：</b>同一器官因成像角度、尺度不同呈现显著形态与纹理差异，仅靠空间信息不足以准确区分类别</div>
+        <div><b>挑战 ②：</b>器官尺寸差异悬殊，大器官边界像素在类别边界对齐中占主导，导致小器官边界模糊</div>
+      </div>
+
+      <h4 class="block">方法框架</h4>
+      <p>整体框架由 CIRD 与 GBD 两个模块组成：CIRD 从低层与高层特征层提取区域信息（低层保留器官边界与纹理等空间细节，高层编码抽象语义与结构信息），GBD 在预测层执行全局边界对齐，最终与基线交叉熵分割蒸馏损失组合。</p>
+
+      <h4 class="block">3.1 跨图像区域对比蒸馏（CIRD）</h4>
+      <p>CIRD 建模跨图像的全局结构关系，而非细粒度空间对齐。以 BTCV 数据集（batch size=8）为例：从教师模型预测图提取二值化类别掩码，调整至特征图尺寸后与所有通道相乘得到类别加权特征，对类别区域做平均池化得到各类别的区域特征向量：</p>
+      <div class="formula">R_c = Σ_h Σ_w (x · m̂_c)_{h,w} / Σ_h Σ_w m̂_c</div>
+      <p>其中 x ∈ R^{B×C_f×H×W} 为特征图，m̂_c 为类别 c 的掩码，R_c ∈ R^{B×C_f} 为批内类别特征（第 i 行对应第 i 张图像）。将各类别区域特征沿类别维度堆叠为 F = [R_1, ..., R_{C_c}]，学生与教师的跨图像区域特征经 L2 归一化后送入 InfoNCE 模块进行对比学习：</p>
+      <div class="formula">S = s_vectors · t_vectors^T / τ</div>
+      <div class="formula">L_CIRD = (1/B·C) Σ_i [ -log( e^{S_{i,i}/τ} / Σ_j e^{S_{i,j}/τ} ) ]</div>
+      <p>对角线元素 S_{i,i} 表示同类师生特征相似度，经 softmax 放大；非对角线元素被抑制，从而增强类间判别性。温度参数 τ = 0.1。</p>
+
+      <h4 class="block">3.2 全局边界蒸馏（GBD）</h4>
+      <p>传统 BPKD 按类别独立对齐边界，在器官尺寸差异大的医学场景中被大器官主导。GBD 改为：对师生模型最终预测层沿通道维做 softmax 得到类别预测分数图；用 <b>Sobel 算子</b>从教师预测图提取全局边界掩码 mask_global（阈值 k=0.5 控制边界检测灵敏度）；将各类别预测通道与全局边界掩码逐元素相乘，用 KL 散度对齐师生的边界建模能力：</p>
+      <div class="formula">p = Σ_h Σ_w (x · mask_global)_{h,w},  kl_div = Σ_i (p_i^s ∥ p_i^t)</div>
+      <div class="formula">L_global = kl_div / Σ_h Σ_w mask_global</div>
+      <p>虽然全局边界掩码在空间上不区分类别，但类别信息通过通道维预测分数隐式保留：softmax 归一化后每个类别通道主要在其对应边界区域呈高置信度，因此各通道 KL 散度的主导贡献仍来自其自身类别边界。全局边界形式为所有边界像素赋予同等重要性，缓解器官尺寸不平衡，同时保持类别判别性。</p>
+
+      <h4 class="block">3.3 总体损失</h4>
+      <div class="formula">L_total = L_seg + α₁·L_circ_low + α₂·L_circ_high + β·L_global</div>
+      <p>其中 L_seg 为交叉熵分割损失；超参数 α₁=0.1，α₂=0.5，β=0.1；τ=0.1，k=0.5。</p>
+
+      <h4 class="block">实验设置</h4>
+      <p>数据集：<b>BTCV</b>（13 类）、<b>Synapse</b>（8 类）、<b>FLARE</b>（4 类）；数据增强：随机翻转、旋转、裁剪；优化器 Adam（β₁=0.9, β₂=0.999），batch size=8，初始学习率 0.001，训练 80 epochs；硬件：4 × RTX 4090 (24GB)。评估指标：Dice 系数与 mIoU（所有类别取平均）。教师模型：RA-UNET / RESNET34-UNET；学生模型：ENET / RESNET18 / RESNET18-UNET。对比方法：EMKD、CIRKD、CWD、BPKD（均重新实现以保证公平）。</p>
+
+      <h4 class="block">主要结果（部分代表性配置）</h4>
+      <p>教师 RA-UNET（22.14M 参数）→ 学生 ENET（0.35M 参数，仅 2.01G FLOPS）：</p>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>方法</th><th>BTCV Dice</th><th>BTCV mIoU</th><th>Synapse Dice</th><th>Synapse mIoU</th><th>FLARE Dice</th><th>FLARE mIoU</th></tr>
+          <tr><td>学生基线 ENET</td><td>83.40</td><td>80.03</td><td>90.17</td><td>87.73</td><td>84.75</td><td>81.80</td></tr>
+          <tr><td>EMKD</td><td>84.74 <span class="up">▲1.34</span></td><td>81.61 <span class="up">▲1.58</span></td><td>90.81 <span class="up">▲0.64</span></td><td>87.87 <span class="up">▲0.14</span></td><td>85.88 <span class="up">▲1.13</span></td><td>82.80 <span class="up">▲1.00</span></td></tr>
+          <tr><td>CIRKD</td><td>84.58 <span class="up">▲1.18</span></td><td>81.35 <span class="up">▲1.32</span></td><td>90.23 <span class="up">▲0.06</span></td><td>87.49 <span class="down">▼0.24</span></td><td>86.27 <span class="up">▲1.52</span></td><td>83.21 <span class="up">▲1.41</span></td></tr>
+          <tr><td>CWD</td><td>83.67 <span class="up">▲0.27</span></td><td>80.27 <span class="up">▲0.24</span></td><td>88.86 <span class="down">▼1.31</span></td><td>85.10 <span class="down">▼2.63</span></td><td>85.11 <span class="up">▲0.36</span></td><td>81.97 <span class="up">▲0.17</span></td></tr>
+          <tr><td>BPKD</td><td>84.13 <span class="up">▲0.73</span></td><td>80.64 <span class="up">▲0.61</span></td><td>89.01 <span class="down">▼1.16</span></td><td>85.56 <span class="down">▼2.17</span></td><td>86.24 <span class="up">▲1.49</span></td><td>82.96 <span class="up">▲1.16</span></td></tr>
+          <tr class="ours"><td class="best">CIRGBD（本文）</td><td class="best">86.53 <span class="up">▲3.13</span></td><td class="best">83.42 <span class="up">▲3.39</span></td><td class="best">92.27 <span class="up">▲2.10</span></td><td class="best">89.39 <span class="up">▲1.66</span></td><td class="best">86.98 <span class="up">▲2.23</span></td><td class="best">83.97 <span class="up">▲2.17</span></td></tr>
+        </table>
+      </div>
+      <p>教师 RESNET34-UNET → 学生 RESNET18-UNET（FLARE 上达到峰值提升）：</p>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>方法</th><th>BTCV Dice</th><th>BTCV mIoU</th><th>Synapse Dice</th><th>Synapse mIoU</th><th>FLARE Dice</th><th>FLARE mIoU</th></tr>
+          <tr><td>学生基线 RESNET18-UNET</td><td>85.04</td><td>82.10</td><td>91.17</td><td>88.26</td><td>83.27</td><td>80.19</td></tr>
+          <tr><td>CIRKD</td><td>87.92 <span class="up">▲2.88</span></td><td>85.05 <span class="up">▲2.95</span></td><td>93.76 <span class="up">▲2.59</span></td><td>91.10 <span class="up">▲2.84</span></td><td>86.33 <span class="up">▲3.06</span></td><td>83.38 <span class="up">▲3.19</span></td></tr>
+          <tr><td>BPKD</td><td>85.82 <span class="up">▲0.64</span></td><td>82.79 <span class="up">▲0.69</span></td><td>91.81 <span class="up">▲0.64</span></td><td>88.99 <span class="up">▲0.73</span></td><td>84.62 <span class="up">▲1.35</span></td><td>81.90 <span class="up">▲1.71</span></td></tr>
+          <tr class="ours"><td class="best">CIRGBD（本文）</td><td class="best">88.60 <span class="up">▲3.56</span></td><td class="best">85.68 <span class="up">▲3.58</span></td><td class="best">94.05 <span class="up">▲2.88</span></td><td class="best">91.41 <span class="up">▲3.15</span></td><td class="best">87.44 <span class="up">▲4.17</span></td><td class="best">84.62 <span class="up">▲4.43</span></td></tr>
+        </table>
+      </div>
+      <p>CIRGBD 在<b>全部实验配置</b>下均取得最优性能，Dice 与 mIoU 提升不低于 0.34%，峰值达 <b>4.17%（Dice）与 4.43%（mIoU）</b>，且无任何场景性能退化。值得注意的是，CWD、BPKD 等基线在医学场景常出现性能下降（因其为自然图像设计，缺乏对医学图像特性的自适应优化），而 CIRGBD 的跨图像区域对比与全局均衡边界蒸馏实现了医学专用的蒸馏优化。</p>
+
+      <h4 class="block">消融实验（教师 RA-UNET → 学生 ENET）</h4>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>配置</th><th>BTCV Dice</th><th>BTCV mIoU</th><th>Synapse Dice</th><th>Synapse mIoU</th><th>FLARE Dice</th><th>FLARE mIoU</th></tr>
+          <tr><td>学生基线</td><td>83.40</td><td>80.03</td><td>90.17</td><td>87.73</td><td>84.75</td><td>81.80</td></tr>
+          <tr><td>+ CIRD</td><td>84.95 <span class="up">▲1.55</span></td><td>81.65 <span class="up">▲1.62</span></td><td>91.83 <span class="up">▲1.66</span></td><td>88.81 <span class="up">▲1.08</span></td><td>86.18 <span class="up">▲1.43</span></td><td>82.94 <span class="up">▲1.14</span></td></tr>
+          <tr><td>+ GBD</td><td>85.51 <span class="up">▲2.11</span></td><td>82.15 <span class="up">▲2.12</span></td><td>91.95 <span class="up">▲1.78</span></td><td>88.97 <span class="up">▲1.24</span></td><td>85.46 <span class="up">▲0.71</span></td><td>82.32 <span class="up">▲0.52</span></td></tr>
+          <tr class="ours"><td class="best">+ CIRD + GBD</td><td class="best">86.53 <span class="up">▲3.13</span></td><td class="best">83.42 <span class="up">▲3.39</span></td><td class="best">92.27 <span class="up">▲2.10</span></td><td class="best">89.39 <span class="up">▲1.66</span></td><td class="best">86.98 <span class="up">▲2.23</span></td><td class="best">83.97 <span class="up">▲2.17</span></td></tr>
+        </table>
+      </div>
+      <p>两模块在所有数据集上均带来一致提升，且融合后的增益显著高于单模块叠加，体现强协同效应：CIRD 在 Synapse 上最大 Dice 增益 1.66%（验证跨图像区域对比对类内形态差异的作用）；GBD 在 BTCV 上最大 mIoU 增益 2.12%（验证全局边界蒸馏对小器官边界的改善）。</p>
+
+      <h4 class="block">计算效率</h4>
+      <p>CIRGBD 在提升精度的同时完全保留学生模型的轻量特性：参数量与 FLOPS 与基线方法及原始学生模型完全一致，<b>零额外计算开销</b>；多数配置下推理速度反而更快（如 ENET 在 BTCV 上 FPS 57.46，高于 EMKD 的 57.12）。这得益于 CIRD 与 GBD 仅对现有特征图与预测结果做掩码加权、平均池化、Sobel 边缘提取等简单操作，不引入额外卷积层或网络分支，高度契合临床部署需求。</p>
+
+      <h4 class="block">定性分析</h4>
+      <p>可视化结果显示，CIRGBD 生成的器官分割结果更完整、边界更平滑：对 BTCV 中胆囊、胰腺等小型解剖结构能准确捕捉细粒度特征（基线方法难以做到）；CIRD 有效纠正类别区分度低的误分割区域，GBD 使模糊不均的边界变得精确清晰。</p>
+
+      <div>
+        <a class="btn btn-ghost" href="index.html">← 返回首页</a>
+        <a class="btn btn-primary" href="/assets/paper-iconip.pdf" target="_blank" rel="noopener noreferrer">📄 阅读论文全文 PDF</a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,32 @@
+{
+  "aura": {
+    "sections": 4,
+    "source": "portfolio/aura.html",
+    "preserved_assets": []
+  },
+  "minicode": {
+    "sections": 3,
+    "source": "portfolio/minicode.html",
+    "preserved_assets": []
+  },
+  "shortdrama": {
+    "sections": 4,
+    "source": "portfolio/shortdrama.html",
+    "preserved_assets": [
+      "/assets/prod-landing.jpg",
+      "/assets/prod-dashboard.jpg",
+      "/assets/prod-assets.jpg",
+      "/assets/prod-ai.jpg"
+    ]
+  },
+  "papers": {
+    "sections": 1,
+    "source": "portfolio/papers.html",
+    "preserved_assets": [
+      "/assets/paper-cscwd.pdf",
+      "/assets/paper-cscwd.pdf",
+      "/assets/paper-iconip.pdf",
+      "/assets/paper-iconip.pdf"
+    ]
+  }
+}

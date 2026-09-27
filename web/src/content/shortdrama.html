@@ -1,0 +1,80 @@
+<section id="stats">
+  <div class="wrap">
+    <div class="stats reveal">
+      <div class="stat"><b>82.4%</b><span>混合检索 Recall@5（58.6% → 82.4%）</span></div>
+      <div class="stat"><b>0.83</b><span>MRR（0.41 → 0.83）</span></div>
+      <div class="stat"><b>5 个</b><span>Agent 串联全链路</span></div>
+      <div class="stat"><b>300 条</b><span>素材查询评测集</span></div>
+    </div>
+  </div>
+</section>
+<section id="pipeline">
+  <div class="wrap">
+    <div class="sec-title reveal"><h2>生产<i>链路</i></h2><p>5 个 Agent 串联：剧本拆解 → 资产匹配 → 分镜生成 → 画面生成 → 编排调度</p></div>
+    <div class="pipeline reveal">
+      <div class="pipe-node"><div class="p-icon">📜</div><b>剧本拆解</b><span>两阶段流水线</span></div>
+      <span class="pipe-arrow">→</span>
+      <div class="pipe-node"><div class="p-icon">🎭</div><b>资产匹配</b><span>混合检索</span></div>
+      <span class="pipe-arrow">→</span>
+      <div class="pipe-node"><div class="p-icon">🎬</div><b>分镜生成</b><span>结构化拆镜</span></div>
+      <span class="pipe-arrow">→</span>
+      <div class="pipe-node"><div class="p-icon">🎨</div><b>画面生成</b><span>参考控制包</span></div>
+      <span class="pipe-arrow">→</span>
+      <div class="pipe-node"><div class="p-icon">🎯</div><b>编排调度</b><span>AgentKit</span></div>
+    </div>
+  </div>
+</section>
+<section id="features">
+  <div class="wrap">
+    <div class="sec-title reveal"><h2>核心<i>能力</i></h2><p>我负责的 Agent 工具设计、混合检索与多模态素材入库</p></div>
+    <div class="feat-grid">
+      <div class="feat reveal">
+        <div class="f-icon">🔍</div>
+        <h3>双路混合检索</h3>
+        <p>自研词法召回层（jieba 分词 + 领域词典注入 + 多字段加权 ILIKE）+ HNSW 向量召回 + RRF 融合 + 规则重排，解决短文本场景 BM25 三因子失效问题。</p>
+        <span class="metric">Recall@5 58.6% → 82.4%</span>
+      </div>
+      <div class="feat reveal">
+        <div class="f-icon">🛡️</div>
+        <h3>Grill Engine 信息充分性闸门</h3>
+        <p>三层决策树（0-LLM 规则预检 → 1-LLM 语义评估 → 候选/反问降级），在调用生成能力前自动判断信息是否充分，避免空泛请求浪费算力。</p>
+        <span class="metric">拦截无效生成请求</span>
+      </div>
+      <div class="feat reveal">
+        <div class="f-icon">📜</div>
+        <h3>剧本拆解 Agent 编排</h3>
+        <p>两阶段流水线：7 工具 Agent 循环拆解剧本为场次与五类资产候选 → 固定 Skill 单次结构化拆镜。草稿/确认分离机制确保生产数据不被 AI 污染。</p>
+        <span class="metric">草稿/确认分离</span>
+      </div>
+      <div class="feat reveal">
+        <div class="f-icon">📦</div>
+        <h3>多模态素材入库</h3>
+        <p>统一解析入口：Excel 图文混合资产用「模板规则 + 模型识别」解析链路；音视频通过 ASR、LAS 视频理解、FFmpeg 抽帧与镜头切分形成时序索引。</p>
+        <span class="metric">时间戳 + 关键帧 + 标签</span>
+      </div>
+      <div class="feat reveal">
+        <div class="f-icon">🔐</div>
+        <h3>安全边界设计</h3>
+        <p>Agent 层不持有云密钥，付费与资产写入须经 Main 后端审批与额度校验；Pi Agent 工具配额控制（单次 ≤ 4 次调用），防止 Agent 跑飞产生非预期费用。</p>
+        <span class="metric">架构级安全隔离</span>
+      </div>
+      <div class="feat reveal">
+        <div class="f-icon">📊</div>
+        <h3>提示词版本化</h3>
+        <p>剧本拆解模块的提示词版本化机制（PROMPT_VERSION v2 → v11），每次规则变更升号，旧运行按 prompt_version_outdated 拒绝续跑，确保线上可审计。</p>
+        <span class="metric">v2 → v11 可审计</span>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="shots">
+  <div class="wrap">
+    <div class="sec-title reveal"><h2>平台<i>实拍</i></h2><p>测试环境真实界面截图</p></div>
+    <div class="shots reveal">
+      <figure class="shot-item"><button type="button" class="image-trigger" aria-label="放大产品截图"><img src="/assets/prod-landing.jpg" alt="落地页" loading="lazy" width="1280" height="716"></button><div class="cap">落地页</div></figure>
+      <figure class="shot-item"><button type="button" class="image-trigger" aria-label="放大产品截图"><img src="/assets/prod-dashboard.jpg" alt="项目管理" loading="lazy" width="1280" height="633"></button><div class="cap">项目管理</div></figure>
+      <figure class="shot-item"><button type="button" class="image-trigger" aria-label="放大产品截图"><img src="/assets/prod-assets.jpg" alt="资产中心" loading="lazy" width="1280" height="633"></button><div class="cap">资产中心</div></figure>
+      <figure class="shot-item"><button type="button" class="image-trigger" aria-label="放大产品截图"><img src="/assets/prod-ai.jpg" alt="AI 工作区" loading="lazy" width="1280" height="633"></button><div class="cap">AI 工作区</div></figure>
+    </div>
+  </div>
+</section>

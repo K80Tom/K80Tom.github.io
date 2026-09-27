@@ -1,0 +1,92 @@
+<section id="features">
+  <div class="wrap">
+    <div class="sec-title reveal"><h2>产品<i>功能</i></h2><p>AI 对话 · 好运日报 · 答案之书 · 心愿日记 · 个人画像与时间轴</p></div>
+    <div class="feat-grid">
+      <div class="feat reveal"><div class="f-icon">💬</div><h3>AI 对话</h3><p>基于大模型的个性化对话，结合用户画像与记忆机制组织上下文，提供有温度、有记忆的陪伴式交流。</p></div>
+      <div class="feat reveal"><div class="f-icon">🍀</div><h3>好运日报</h3><p>结合用户基础资料、八字星盘与环境信息，每日生成个性化日报与生活建议。</p></div>
+      <div class="feat reveal"><div class="f-icon">📖</div><h3>答案之书</h3><p>互动问答功能，用户提出问题，AI 结合上下文给出启发式回答。</p></div>
+      <div class="feat reveal"><div class="f-icon">✨</div><h3>心愿日记</h3><p>记录愿望与日常表达，通过日记与时间轴沉淀用户的生活记录。</p></div>
+      <div class="feat reveal"><div class="f-icon">👤</div><h3>个人画像</h3><p>基于用户资料与历史互动构建结构化画像，支撑个性化内容生成。</p></div>
+      <div class="feat reveal"><div class="f-icon">📮</div><h3>反馈信箱</h3><p>用户反馈与官方回复系统，信封式交互设计，支持图片附件与拆信红点。</p></div>
+    </div>
+  </div>
+</section>
+<section id="arch">
+  <div class="wrap">
+    <div class="sec-title reveal"><h2>技术<i>架构</i></h2><p>SwiftUI 客户端 · Go + Thrift RPC 服务端 · MySQL + Redis 数据层</p></div>
+    <div class="arch-card reveal">
+      <div class="arch-flow">
+        <div class="arch-node"><b>iOS 客户端</b><span>SwiftUI / MVVM</span></div>
+        <span class="arch-arrow">→</span>
+        <div class="arch-node"><b>Edith API 网关</b><span>统一接入 HTTP 请求</span></div>
+        <span class="arch-arrow">→</span>
+        <div class="arch-node"><b>Go 服务端</b><span>Thrift RPC / GORM</span></div>
+      </div>
+      <div class="arch-flow">
+        <div class="arch-node"><b>MySQL</b><span>用户与业务数据持久化</span></div>
+        <div class="arch-node"><b>Redis</b><span>缓存与会话状态管理</span></div>
+        <div class="arch-node"><b>大模型</b><span>用户画像 + 记忆机制</span></div>
+      </div>
+      <p>服务端基于 Go 与 Thrift RPC 提供用户管理、内容生成、会话交互及数据服务；底层使用 MySQL 持久化用户与业务数据，Redis 管理缓存及会话状态，结合大模型、用户画像与记忆机制组织个性化上下文，支撑日报生成、连续对话和日记互动等核心场景。</p>
+    </div>
+  </div>
+</section>
+<section id="memory">
+  <div class="wrap">
+    <div class="sec-title reveal"><h2>记忆<i>系统</i></h2><p>我负责的核心模块：会话记忆 + 长期记忆 + 分层压缩</p></div>
+    <div class="arch-card reveal">
+      <h4>ConversationProjection 会话快照结构</h4>
+      <div class="memory-tree">
+<b>ConversationProjection</b>（Redis，TTL 30 天）
+├── <b>Rollups</b>          <span class="hl">很早以前对话的分层摘要</span>
+├── <b>Episodes</b>         <span class="hl">已压缩的对话片段</span>
+├── <b>RawMessages</b>      <span class="hl">最近未压缩原文</span>
+├── <b>AgentStatus</b>      当前 Agent 工作状态
+├── <b>LastSequence</b>     已处理到的消息序号
+├── <b>ProjectionVersion / Revision</b>
+├── <b>Dirty / DirtyReason</b>
+└── <b>UpdatedAt</b>
+      </div>
+      <h4>分层压缩流程</h4>
+      <div class="arch-flow">
+        <div class="arch-node"><b>RawMessages</b><span>最近原文</span></div>
+        <span class="arch-arrow">超出预算 →</span>
+        <div class="arch-node"><b>Episode</b><span>分块摘要</span></div>
+        <span class="arch-arrow">达到 fanout →</span>
+        <div class="arch-node"><b>Rollup L1</b><span>折叠汇总</span></div>
+        <span class="arch-arrow">继续达到 fanout →</span>
+        <div class="arch-node"><b>Rollup L2/L3</b><span>更高层汇总</span></div>
+      </div>
+      <p>压缩在候选快照中完成，生成、验证全部成功后才通过 <b>CAS 版本校验</b>替换 Redis 当前快照，确保并发安全。软阈值触发后台压缩，硬阈值触发请求前压缩。</p>
+    </div>
+  </div>
+</section>
+<section id="role">
+  <div class="wrap">
+    <div class="sec-title reveal"><h2>我的<i>职责</i></h2><p>用户记忆系统 · 会话上下文管理 · iOS 原生交互 · 反馈业务后端</p></div>
+    <div class="role-card reveal">
+      <h3>结构化用户记忆</h3>
+      <p>参与用户长期记忆模块开发，基于 MySQL 管理用户偏好、个人资料、习惯与目标等结构化事实；支持记忆更新、撤回及分类禁记策略，在对话前加载有效记忆，为个性化回复提供依据。</p>
+    </div>
+    <div class="role-card reveal">
+      <h3>记忆提取与按需注入</h3>
+      <p>在会话回复后异步调用 LLM 提取稳定、用户明确表达的事实，结合置信度与禁记策略过滤候选；采用「记忆目录 → 相关引用选择 → 完整事实加载」的方式组织长期记忆，控制无关内容进入模型上下文。</p>
+    </div>
+    <div class="role-card reveal">
+      <h3>会话上下文管理</h3>
+      <p>结合 Redis 会话快照管理近期原文、分段摘要及当前交互状态；按 Token 预算组织历史上下文，通过 Episode 分段摘要与 Rollup 汇总保留旧对话中的关键事项、用户边界和未完成承诺。</p>
+    </div>
+    <div class="role-card reveal">
+      <h3>iOS 原生交互</h3>
+      <p>基于 SwiftUI 与 MVVM 实现反馈信箱交互原型，覆盖信封列表、拆信阅读、反馈编辑与本地图片预览；通过独立 ViewModel 管理页面状态、草稿和异步图片任务，实现缩略图降采样及任务取消处理。</p>
+    </div>
+    <div class="role-card reveal">
+      <h3>反馈业务后端</h3>
+      <p>基于 Go、GORM 设计会话、消息、附件三类数据模型，实现反馈创建、消息追加、历史查询与官方回复等能力；接入公司媒体服务保存图片，数据库维护文件标识及附件元数据。使用事务保证原子写入，结合复合唯一键与请求指纹识别重复提交及内容冲突。</p>
+    </div>
+    <div class="role-card reveal">
+      <h3>接口与工程交付</h3>
+      <p>编写 Thrift 接口契约及 RPC 实现，完成 Go SDK 更新、测试泳道部署与创建反馈接口的网关配置发布；补充请求重放、权限隔离、分页及字段映射等自动化测试。</p>
+    </div>
+  </div>
+</section>
