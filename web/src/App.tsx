@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { ArrowDown, ArrowDownToLine, ArrowLeft, ArrowRight, ArrowUpRight, Award, Check, Copy, ExternalLink, FileText, Github, Menu, Moon, Pause, Play, Sun, X } from 'lucide-react'
 import { certificates, honors, papers, projects, skills, type Project } from './data'
-import { AgentScene, ProjectScene, ResearchMark } from './components/Scenes'
+import { ProjectScene, ResearchMark } from './components/Scenes'
+import { CinematicHero } from './components/CinematicHero'
 import auraContent from './content/aura.html?raw'
 import minicodeContent from './content/minicode.html?raw'
 import shortdramaContent from './content/shortdrama.html?raw'
@@ -41,10 +42,6 @@ function Header({ page }: {page:string}) {
     <nav id="main-navigation" className={`main-nav ${menu?'is-open':''}`} aria-label="主导航">{nav.map(([label,href,id])=><a key={id} href={href} aria-current={page===id?'page':undefined} onClick={()=>setMenu(false)}>{label}</a>)}<a href="/index.html#about" onClick={()=>setMenu(false)}>关于</a></nav>
     <div className="nav-actions"><button className="icon-button motion-toggle" type="button" onClick={toggleMotion} aria-label={paused?'启用动效':'暂停动效'} title={paused?'启用动效':'暂停动效'}>{paused?<Play size={15}/>:<Pause size={15}/>}</button><button className="icon-button" type="button" onClick={toggleTheme} aria-label={light?'切换深色主题':'切换浅色主题'} title={light?'切换深色主题':'切换浅色主题'}>{light?<Moon size={16}/>:<Sun size={16}/>}</button><a className="nav-contact" href="mailto:1803554228@qq.com">联系我 <ArrowUpRight size={14}/></a><button className="icon-button menu-toggle" id="menu-toggle" type="button" onClick={()=>setMenu(!menu)} aria-controls="main-navigation" aria-expanded={menu} aria-label={menu?'关闭导航':'打开导航'}>{menu?<X size={20}/>:<Menu size={20}/>}</button></div>
   </div></header>
-}
-
-function Hero() {
-  return <section className="hero container" aria-labelledby="hero-title"><div className="hero-copy"><div className="availability"><span className="signal"/><span className="mono">OPEN TO OPPORTUNITIES</span><span className="availability-year">2027 届</span></div><Label>AI AGENT ENGINEER</Label><h1 id="hero-title">把智能体，<br/>做成真正<span className="mint-text">可用</span><br className="hero-last-break"/>的产品<span className="title-period">.</span></h1><p className="hero-description">你好，我是汤林夕。<br/>从 Agent Runtime 到 AI Native 应用，<br className="mobile-br"/>我关注智能如何走出模型，进入真实世界。</p><div className="button-row"><LinkButton href="#work" primary>探索我的作品</LinkButton><LinkButton href="/assets/resume.pdf" download>下载简历</LinkButton></div><div className="hero-note"><span className="mono">BASED IN CHINA</span><span>工程驱动科研，科研反哺工程。</span></div></div><AgentScene/><a className="scroll-cue mono" href="#work"><ArrowDown size={14}/> SCROLL TO EXPLORE</a><span className="hero-index mono">PORTFOLIO — 2026</span></section>
 }
 
 function TrustStrip() {
@@ -130,5 +127,5 @@ export default function App({path}:{path:string}) {
     const handler=(event:MouseEvent)=>{const target=event.target as HTMLElement;const img=target.closest('.legacy-content .shot-item')?.querySelector('img');if(img){event.preventDefault();setImage({src:img.src,alt:img.alt})}}
     document.addEventListener('click',handler);return()=>document.removeEventListener('click',handler)
   },[])
-  return <><a className="skip-link" href="#main">跳到主要内容</a><div id="top"/><Header page={project?'projects':id}/><main id="main">{project?<CaseStudy project={project}/>:id==='projects'?<><PageIntro label="PROJECT INDEX / 04 SELECTED CASES" title="从想法，到产品。" description="四个项目，覆盖智能体执行、长期记忆、编程框架与多智能体创作。每个案例都包含我的具体职责、技术选择和实现细节。"/><Projects full/></>:id==='papers'?<PapersPage/>:id==='honors'?<HonorsPage openImage={setImage}/>:known?<><Hero/><TrustStrip/><Projects/><About/><Skills/><ResearchTeaser/><Creator/><Contact/></>:<section className="not-found container"><Label>404 / ROUTE NOT FOUND</Label><h1>这条路径还没有被构建。</h1><p>可以从我的项目开始，找到下一段探索。</p><LinkButton href="/index.html" primary>返回首页</LinkButton></section>}</main><Footer/><Lightbox image={image} onClose={()=>setImage(null)}/></>
+  return <><a className="skip-link" href="#main">跳到主要内容</a><div id="top"/>{id!=='index'&&<Header page={project?'projects':id}/>}<main id="main">{project?<CaseStudy project={project}/>:id==='projects'?<><PageIntro label="PROJECT INDEX / 04 SELECTED CASES" title="从想法，到产品。" description="四个项目，覆盖智能体执行、长期记忆、编程框架与多智能体创作。每个案例都包含我的具体职责、技术选择和实现细节。"/><Projects full/></>:id==='papers'?<PapersPage/>:id==='honors'?<HonorsPage openImage={setImage}/>:known?<><CinematicHero/><TrustStrip/><Projects/><About/><Skills/><ResearchTeaser/><Creator/><Contact/></>:<section className="not-found container"><Label>404 / ROUTE NOT FOUND</Label><h1>这条路径还没有被构建。</h1><p>可以从我的项目开始，找到下一段探索。</p><LinkButton href="/index.html" primary>返回首页</LinkButton></section>}</main><Footer/><Lightbox image={image} onClose={()=>setImage(null)}/></>
 }

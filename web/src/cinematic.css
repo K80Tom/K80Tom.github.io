@@ -1,0 +1,132 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: 'Instrument Serif', serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+
+body { font-family: var(--font-body); }
+
+.cinematic-hero {
+  --background: 201 100% 13%;
+  --foreground: 0 0% 100%;
+  --muted-foreground: 240 4% 66%;
+  --primary: 0 0% 100%;
+  --primary-foreground: 0 0% 4%;
+  --secondary: 0 0% 10%;
+  --muted: 0 0% 10%;
+  --accent: 0 0% 10%;
+  --accent-foreground: 0 0% 100%;
+  --border: 0 0% 18%;
+  --input: 0 0% 18%;
+  --ring: 0 0% 100%;
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  min-height: 660px;
+  min-height: max(660px, 100svh);
+  overflow: hidden;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: var(--font-body);
+  line-height: 1.5;
+}
+
+.cinematic-hero video { pointer-events: none; }
+.cinematic-hero :focus-visible { outline: 2px solid white; outline-offset: 6px; }
+.cinema-header { flex-shrink: 0; z-index: 20; gap: 24px; }
+.cinema-brand { display: flex; align-items: baseline; gap: 13px; white-space: nowrap; }
+.cinema-brand-en { font-family: var(--font-display); font-size: 20px; color: hsl(var(--muted-foreground)); letter-spacing: -.3px; }
+.cinema-copy { flex: 1; justify-content: center; padding-top: 50px; padding-bottom: 150px; }
+.cinema-eyebrow { font-size: 10px; font-weight: 400; letter-spacing: 2.4px; color: hsl(var(--muted-foreground)); margin-bottom: 32px; }
+.cinema-eyebrow span { margin: 0 13px; color: white; opacity: .5; }
+.cinema-title { font-size: clamp(54px, 6.65vw, 96px); line-height: 1.18; letter-spacing: -2.46px; }
+.cinema-title-line { display: block; }
+.cinema-title-line + .cinema-title-line { margin-top: 12px; }
+.cinema-description { font-weight: 400; }
+.cinema-ctas { min-height: 64px; }
+.cinema-bottom { flex-shrink: 0; min-height: 76px; padding-bottom: 23px; gap: 20px; font-size: 10px; letter-spacing: 1.2px; color: hsl(var(--muted-foreground)); }
+.cinema-location { flex: 1; white-space: nowrap; }
+.cinema-location span { margin: 0 9px; }
+.cinema-scroll { display: flex; align-items: center; gap: 10px; }
+.cinema-controls { flex: 1; justify-content: flex-end; }
+.cinema-controls button { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-width: 40px; min-height: 40px; padding: 8px; background: transparent; color: inherit; font-size: 9px; letter-spacing: 1px; }
+.cinema-controls button:hover, .cinema-scroll:hover { color: white; }
+.cinema-mobile-nav { position: absolute !important; top: calc(100% - 8px); left: 24px; right: 24px; padding: 14px 22px; border-radius: 20px; background: rgba(6, 28, 43, .94) !important; backdrop-filter: blur(20px) !important; }
+.cinema-mobile-nav a { display: flex; align-items: center; justify-content: space-between; padding: 15px 3px; color: white; font-size: 15px; }
+.cinema-mobile-nav a + a { border-top: 1px solid rgba(255,255,255,.1); }
+
+.liquid-glass {
+  background: rgba(255,255,255,.01);
+  background-blend-mode: luminosity;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: none;
+  box-shadow: inset 0 1px 1px rgba(255,255,255,.1);
+  position: relative;
+  overflow: hidden;
+}
+.liquid-glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.4px;
+  background: linear-gradient(180deg, rgba(255,255,255,.45) 0%, rgba(255,255,255,.15) 20%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 60%, rgba(255,255,255,.15) 80%, rgba(255,255,255,.45) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+@keyframes fade-rise {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-rise { animation: fade-rise .8s ease-out both; }
+.animate-fade-rise-delay { animation: fade-rise .8s ease-out .2s both; }
+.animate-fade-rise-delay-2 { animation: fade-rise .8s ease-out .4s both; }
+
+@media (max-width: 1023px) {
+  .cinema-brand-en { display: none; }
+  .cinema-header { gap: 16px; }
+  .cinema-desktop-nav { gap: 24px; }
+}
+@media (min-width: 768px) { .cinema-mobile-nav { display: none; } }
+@media (min-width: 768px) and (max-height: 800px) {
+  .cinema-copy { padding-top: 30px; padding-bottom: 80px; }
+  .cinema-eyebrow { margin-bottom: 24px; }
+  .cinema-title { font-size: clamp(54px, 6.2vw, 88px); line-height: 1.12; }
+  .cinema-description { margin-top: 24px; }
+  .cinema-ctas { margin-top: 32px; }
+}
+@media (max-width: 767px) {
+  .cinematic-hero { min-height: max(720px, 100svh); }
+  .cinema-header { padding: 22px 24px; }
+  .cinema-copy { padding-top: 66px; padding-bottom: 80px; }
+  .cinema-title { font-size: clamp(40px, 7.7vw, 59px); letter-spacing: -1.8px; }
+  .cinema-eyebrow { font-size: 8px; letter-spacing: 1.3px; margin-bottom: 27px; }
+  .cinema-eyebrow span { margin: 0 7px; }
+  .cinema-description { font-size: 14px; max-width: 380px; line-height: 1.9; }
+  .cinema-bottom { padding: 0 24px 18px; font-size: 8px; letter-spacing: .7px; }
+  .cinema-scroll { display: none; }
+}
+@media (max-width: 540px) {
+  .cinema-title { font-size: clamp(40px, 11vw, 55px); line-height: 1.27; letter-spacing: -1.5px; }
+  .cinema-title-line + .cinema-title-line { margin-top: 8px; }
+  .cinema-title-line:last-child em { display: block; }
+  .cinema-nav-cta { padding: 10px 16px; font-size: 12px; }
+  .cinema-brand-en { display: none; }
+  .cinema-copy { padding: 32px 24px 120px; }
+  .cinema-ctas { margin-top: 32px; }
+  .cinema-description { max-width: 300px; margin-top: 24px; }
+  .cinema-controls { flex: 0; gap: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cinematic-hero *, .cinematic-hero *::before { animation: none !important; transition: none !important; }
+}
+:root[data-motion=paused] .cinematic-hero * { animation: none !important; }

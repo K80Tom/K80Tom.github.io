@@ -1,3 +1,4 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-export default defineConfig({ root: 'web', plugins: [react()], base: '/', build: { outDir: '../dist', emptyOutDir: true, assetsDir: 'static' } })
+import { fileURLToPath } from 'node:url'
+export default defineConfig({ root: 'web', plugins: [react()], base: '/', resolve: { alias: { '@': fileURLToPath(new URL('./web/src', import.meta.url)) } }, build: { outDir: '../dist', emptyOutDir: true, assetsDir: 'static' } })

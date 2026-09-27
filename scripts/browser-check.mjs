@@ -14,7 +14,7 @@ try{
     const page=await context.newPage()
     page.on('pageerror',error=>failures.push(`JS error ${width}: ${error.message}`))
     for(const route of pages){
-      const response=await page.goto(base+route,{waitUntil:'networkidle'})
+      const response=await page.goto(base+route,{waitUntil:'domcontentloaded'})
       expect(response.status()===200,`${width} ${route}: loads`)
       expect(await page.locator('h1').count()===1,`${width} ${route}: one page title`)
       const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>window.innerWidth+1)
@@ -48,8 +48,8 @@ try{
     await page.goto(base+'/')
     if(width===390){
       await page.getByRole('button',{name:'打开导航'}).click()
-      expect(await page.getByRole('navigation').isVisible(),'Mobile navigation opens')
-      await page.getByRole('navigation').getByRole('link',{name:'研究',exact:true}).click()
+      expect(await page.getByRole('navigation',{name:'手机导航'}).isVisible(),'Mobile navigation opens')
+      await page.getByRole('navigation',{name:'手机导航'}).getByRole('link',{name:'研究',exact:true}).click()
       await page.waitForURL('**/papers.html')
       expect(await page.locator('h1').innerText()==='让模型更轻，让理解更深。','Mobile navigation reaches research')
     }
@@ -67,7 +67,7 @@ try{
   expect(await page.locator('table').count()>=2,'Research tables present without JavaScript')
   await context.close()
   const reduced=await browser.newContext({reducedMotion:'reduce'});const motionPage=await reduced.newPage();await motionPage.goto(base+'/')
-  expect(await motionPage.locator('.core-chip').evaluate(el=>getComputedStyle(el).animationName)==='none','Reduced motion disables ambient animation')
+  expect(await motionPage.locator('.cinema-title').evaluate(el=>getComputedStyle(el).animationName)==='none','Reduced motion disables ambient animation')
   await reduced.close()
   const summary={base,checks:checks.length,failures};await writeFile('artifacts/browser-check.json',JSON.stringify(summary,null,2));console.log(JSON.stringify(summary,null,2))
 }finally{await browser.close()}

@@ -11,9 +11,9 @@
 
 ## 实现
 
-React + TypeScript + Vite，静态预渲染；独立案例地址和可检索的完整 HTML。首页图形使用原创 SVG/CSS。所有第三方动效站点仅作设计参考，未复制付费模板或素材。
+React + TypeScript + Vite + Tailwind CSS 3，静态预渲染；独立案例地址和可检索的完整 HTML。首页按用户提供的方案改为 CloudFront 视频、中文衬线标题与玻璃按钮；项目卡与详情页继续使用原创 SVG/CSS 场景。按钮基于 shadcn/ui 的 Radix Button，增加 glass 样式。Tailwind 关闭 Preflight，避免改写原有详情样式。
 
-保留 React 的交互能力，同时避免依赖浏览器运行脚本才能看见主要内容。使用系统字体，没有字体 CDN 和循环背景视频请求。核心动效遵循减少动态效果偏好，可手动暂停。
+保留 React 的交互能力，同时避免依赖浏览器运行脚本才能看见主要内容。首页使用用户指定的外部循环视频（约 14.14 MB），加载失败显示深蓝背景，内容和入口仍可使用。Google Fonts 加载 Instrument Serif / Inter；中文主标题使用仅包含必要字形的 Noto Serif SC 子集，并提供系统字体回退。视频静音内联播放，遵循减少动态效果偏好及持久化暂停设置，离开视口或切换标签时暂停。无额外视频遮罩、光晕或装饰性渐变。
 
 现有 Pages 主分支曾只保存构建结果。这次使用 `web/` 保存源码，并将生成后的静态页面放到根目录；源码与线上产物随同一提交更新。原 WorkBuddy 目录及其未提交修改均未改动。
 
@@ -30,6 +30,8 @@ React + TypeScript + Vite，静态预渲染；独立案例地址和可检索的�
 ## 验证
 
 `npm run build` 包含 TypeScript、静态预渲染、站内路径与关键内容检查。
+
+`scripts/cinematic-check.mjs` 专门检查视频播放、暂停、移动菜单、减少动态效果与网络失败降级。
 
 `scripts/browser-check.mjs` 使用 Playwright 验证桌面、平板、手机的页面与交互。运行时需可用的 Playwright 包；可通过 `NODE_PATH` 指定已有包目录，通过 `CHROME_PATH` 指定测试浏览器，通过 `TEST_URL` 指定站点。截图与结果写入忽略的 `artifacts/`。
 

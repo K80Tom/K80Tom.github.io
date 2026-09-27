@@ -35,10 +35,14 @@ git push origin HEAD:main
 
 - `web/src/data.ts`：项目介绍、职责、技能、荣誉和论文索引。
 - `web/src/App.tsx`：页面结构、录屏智能体案例、经历与联系信息。
+- `web/src/components/CinematicHero.tsx` / `web/src/cinematic.css`：视频首屏、个人导航和玻璃按钮。
+- `web/src/components/ui/button.tsx`：shadcn/ui 按钮及自定义 glass 变体。
 - `web/src/components/Scenes.tsx`：自制 SVG / CSS 场景和交互示意。
 - `web/src/content/`：从原站完整迁移的项目和论文技术内容。
 - `web/public/assets/`：原有简历、论文 PDF、证书和产品图片，保留旧下载路径。
 - `scripts/`：静态预渲染、完整性检查、发布文件准备。
+
+首屏直接播放用户提供的 CloudFront 视频，字体由 Google Fonts 提供，网络不可用时回退为纯色背景与系统字体。
 
 动效尊重 `prefers-reduced-motion`，并提供手动暂停；默认深色，可切换浅色。手机使用独立布局和可展开导航。无后台、无在线模型调用、无追踪服务。
 
