@@ -39,7 +39,7 @@ function Header({ page }: {page:string}) {
   const nav=[['首页','/index.html','index'],['作品','/projects.html','projects'],['研究','/papers.html','papers'],['荣誉','/honors.html','honors']]
   return <header className="site-header"><div className="container nav-row">
     <a className="brand" href="/index.html" aria-label="汤林夕，返回首页"><img src="/favicon.svg" width="31" height="31" alt=""/><span>汤林夕<span className="brand-suffix mono"> / LINXI</span></span></a>
-    <nav id="main-navigation" className={`main-nav ${menu?'is-open':''}`} aria-label="主导航">{nav.map(([label,href,id])=><a key={id} href={href} aria-current={page===id?'page':undefined} onClick={()=>setMenu(false)}>{label}</a>)}<a href="/index.html#about" onClick={()=>setMenu(false)}>关于</a></nav>
+    <nav id="main-navigation" className={`main-nav ${menu?'is-open':''}`} aria-label="主导航">{nav.map(([label,href,id])=><a key={id} href={href} aria-current={page===id?'page':undefined} onClick={()=>setMenu(false)}>{label}</a>)}<a href="/projects.html#about" onClick={()=>setMenu(false)}>关于</a></nav>
     <div className="nav-actions"><button className="icon-button motion-toggle" type="button" onClick={toggleMotion} aria-label={paused?'启用动效':'暂停动效'} title={paused?'启用动效':'暂停动效'}>{paused?<Play size={15}/>:<Pause size={15}/>}</button><button className="icon-button" type="button" onClick={toggleTheme} aria-label={light?'切换深色主题':'切换浅色主题'} title={light?'切换深色主题':'切换浅色主题'}>{light?<Moon size={16}/>:<Sun size={16}/>}</button><a className="nav-contact" href="mailto:1803554228@qq.com">联系我 <ArrowUpRight size={14}/></a><button className="icon-button menu-toggle" id="menu-toggle" type="button" onClick={()=>setMenu(!menu)} aria-controls="main-navigation" aria-expanded={menu} aria-label={menu?'关闭导航':'打开导航'}>{menu?<X size={20}/>:<Menu size={20}/>}</button></div>
   </div></header>
 }
@@ -72,7 +72,7 @@ function Contact() {
   const timer=useRef<number>()
   useEffect(()=>()=>window.clearTimeout(timer.current),[])
   const copy=async()=>{try{await navigator.clipboard.writeText(email);setCopied(true);window.clearTimeout(timer.current);timer.current=window.setTimeout(()=>setCopied(false),2000)}catch{window.location.href=`mailto:${email}`}}
-  return <section className="contact-section" id="contact"><div className="container contact-inner"><Label>LET’S BUILD WHAT’S NEXT</Label><h2>下一个有意思的项目，<br/>也许<span>由我们一起完成。</span></h2><p>正在寻找 AI Agent / AI 应用研发岗位。<br/>也欢迎交流 Agent 工程、RAG 优化与模型蒸馏。</p><div className="contact-email"><a href={`mailto:${email}`}>{email}<ArrowUpRight size={27}/></a><button className="icon-button" onClick={copy} type="button" aria-label={copied?'邮箱已复制':'复制邮箱'}>{copied?<Check size={18}/>:<Copy size={18}/>}</button><span className="sr-only" aria-live="polite">{copied?'邮箱已复制':''}</span></div><div className="contact-links"><a href="https://github.com/K80Tom" {...external}><Github size={17}/>GitHub<ArrowUpRight size={13}/></a><a href="/assets/resume.pdf" download><FileText size={17}/>简历 PDF<ArrowDownToLine size={13}/></a><a href="/index.html#creator"><Play size={16}/>技术分享<ArrowUpRight size={13}/></a></div></div><div className="contact-watermark" aria-hidden="true">LET’S BUILD.</div></section>
+  return <section className="contact-section" id="contact"><div className="container contact-inner"><Label>LET’S BUILD WHAT’S NEXT</Label><h2>下一个有意思的项目，<br/>也许<span>由我们一起完成。</span></h2><p>正在寻找 AI Agent / AI 应用研发岗位。<br/>也欢迎交流 Agent 工程、RAG 优化与模型蒸馏。</p><div className="contact-email"><a href={`mailto:${email}`}>{email}<ArrowUpRight size={27}/></a><button className="icon-button" onClick={copy} type="button" aria-label={copied?'邮箱已复制':'复制邮箱'}>{copied?<Check size={18}/>:<Copy size={18}/>}</button><span className="sr-only" aria-live="polite">{copied?'邮箱已复制':''}</span></div><div className="contact-links"><a href="https://github.com/K80Tom" {...external}><Github size={17}/>GitHub<ArrowUpRight size={13}/></a><a href="/assets/resume.pdf" download><FileText size={17}/>简历 PDF<ArrowDownToLine size={13}/></a><a href="/projects.html#creator"><Play size={16}/>技术分享<ArrowUpRight size={13}/></a></div></div><div className="contact-watermark" aria-hidden="true">LET’S BUILD.</div></section>
 }
 function Creator() {
   return <section className="container creator" id="creator"><div className="creator-icon mono">↗</div><div><Label>LEARN. BUILD. SHARE.</Label><h3>欧皓辰我选你。<span>抖音技术分享</span></h3><p>记录 Agent 开发实战、大模型工程化与新的想法。教，是另一种学习。</p></div><div className="creator-number"><b className="mono">1,903</b><span>关注者 · 原站记录</span></div></section>
@@ -80,6 +80,13 @@ function Creator() {
 function Footer(){return <footer className="site-footer container"><a href="/index.html" className="footer-brand">汤林夕<span className="mono"> / AI AGENT ENGINEER</span></a><span>© 2026 · 保持好奇，持续构建。</span><a href="#top" className="mono">BACK TO TOP ↑</a></footer>}
 
 function PageIntro({label,title,description}:{label:string;title:string;description:string}){return <div className="page-intro container"><Label>{label}</Label><h1>{title}</h1><p>{description}</p></div>}
+
+function PortfolioPage() {
+  return <>
+    <PageIntro label="WORK & EXPERIENCE / LINXI TANG" title="作品与经历。" description="从智能体工程到真实产品，从研究探索到持续交付。这里记录我的项目、经历与思考。"/>
+    <TrustStrip/><Projects full/><About/><Skills/><ResearchTeaser/><Creator/><Contact/>
+  </>
+}
 
 function CaseStudy({project:p}:{project:Project}) {
   const next=projects[(projects.indexOf(p)+1)%projects.length]
@@ -118,6 +125,11 @@ export default function App({path}:{path:string}) {
   const known=project||['index','projects','papers','honors'].includes(id)
   const [image,setImage]=useState<{src:string;alt:string}|null>(null)
   useEffect(()=>{
+    if(id==='index'&&['#work','#about','#research','#creator','#contact'].includes(window.location.hash)) {
+      window.location.replace(`/projects.html${window.location.hash}`)
+    }
+  },[id])
+  useEffect(()=>{
     if(window.matchMedia('(prefers-reduced-motion: reduce)').matches||document.documentElement.dataset.motion==='paused')return
     const observer=new IntersectionObserver(entries=>{for(const entry of entries){if(entry.isIntersecting){entry.target.classList.add('reveal-in');observer.unobserve(entry.target)}}},{threshold:.08})
     document.querySelectorAll('.section-heading,.project-card,.about-profile,.about-story,.capabilities-grid>article,.research-card,.honor-strip,.decision').forEach(element=>observer.observe(element))
@@ -127,5 +139,18 @@ export default function App({path}:{path:string}) {
     const handler=(event:MouseEvent)=>{const target=event.target as HTMLElement;const img=target.closest('.legacy-content .shot-item')?.querySelector('img');if(img){event.preventDefault();setImage({src:img.src,alt:img.alt})}}
     document.addEventListener('click',handler);return()=>document.removeEventListener('click',handler)
   },[])
-  return <><a className="skip-link" href="#main">跳到主要内容</a><div id="top"/>{id!=='index'&&<Header page={project?'projects':id}/>}<main id="main">{project?<CaseStudy project={project}/>:id==='projects'?<><PageIntro label="PROJECT INDEX / 04 SELECTED CASES" title="从想法，到产品。" description="四个项目，覆盖智能体执行、长期记忆、编程框架与多智能体创作。每个案例都包含我的具体职责、技术选择和实现细节。"/><Projects full/></>:id==='papers'?<PapersPage/>:id==='honors'?<HonorsPage openImage={setImage}/>:known?<><CinematicHero/><TrustStrip/><Projects/><About/><Skills/><ResearchTeaser/><Creator/><Contact/></>:<section className="not-found container"><Label>404 / ROUTE NOT FOUND</Label><h1>这条路径还没有被构建。</h1><p>可以从我的项目开始，找到下一段探索。</p><LinkButton href="/index.html" primary>返回首页</LinkButton></section>}</main><Footer/><Lightbox image={image} onClose={()=>setImage(null)}/></>
+  return <>
+    <a className="skip-link" href="#main">跳到主要内容</a><div id="top"/>
+    {id!=='index'&&<Header page={project?'projects':id}/>}
+    <main id="main">
+      {project?<CaseStudy project={project}/>
+        :id==='projects'?<PortfolioPage/>
+        :id==='papers'?<PapersPage/>
+        :id==='honors'?<HonorsPage openImage={setImage}/>
+        :known?<CinematicHero/>
+        :<section className="not-found container"><Label>404 / ROUTE NOT FOUND</Label><h1>这条路径还没有被构建。</h1><p>可以从我的项目开始，找到下一段探索。</p><LinkButton href="/index.html" primary>返回首页</LinkButton></section>}
+    </main>
+    {id!=='index'&&<Footer/>}
+    <Lightbox image={image} onClose={()=>setImage(null)}/>
+  </>
 }

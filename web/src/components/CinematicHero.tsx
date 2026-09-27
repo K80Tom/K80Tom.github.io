@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
-import { ArrowDown, ArrowDownToLine, ArrowUpRight, Menu, Moon, Pause, Play, Sun, X } from 'lucide-react'
+import { ArrowDownToLine, ArrowUpRight, Menu, Moon, Pause, Play, Sun, X } from 'lucide-react'
 import { Button } from './ui/button'
 
 const videoUrl = 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260314_131748_f2ca2a28-fed7-44c8-b9a9-bd9acdd5ec31.mp4'
 const displayFont = "'Instrument Serif', 'Noto Serif SC', 'Songti SC', serif"
 const links = [
-  ['首页', '/index.html'], ['作品', '#work'], ['关于', '#about'],
-  ['研究', '/papers.html'], ['联系我', '#contact'],
+  ['首页', '/index.html'], ['作品', '/projects.html'], ['关于', '/projects.html#about'],
+  ['研究', '/papers.html'], ['联系我', '/projects.html#contact'],
 ]
 
 export function CinematicHero() {
@@ -116,13 +116,13 @@ export function CinematicHero() {
       </h1>
       <p className="cinema-description animate-fade-rise-delay mt-8 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">你好，我是汤林夕。专注 AI Agent 研发。<br/>从模型能力到产品体验，让智能走进真实世界。</p>
       <div className="cinema-ctas animate-fade-rise-delay-2 mt-12 flex flex-wrap items-center justify-center gap-6">
-        <Button asChild variant="glass" size="hero"><a href="#work">探索我的作品 <ArrowUpRight/></a></Button>
+        <Button asChild variant="glass" size="hero"><a href="/projects.html">探索我的作品 <ArrowUpRight/></a></Button>
       </div>
     </div>
 
     <div className="cinema-bottom relative z-10 mx-auto flex w-full max-w-7xl items-center justify-between px-8">
       <span className="cinema-location">BASED IN CHINA <span>·</span> 2027 届</span>
-      <a className="cinema-scroll" href="#work"><ArrowDown size={13}/><span>向下探索</span></a>
+      <a className="cinema-scroll" href="/projects.html"><span>作品与经历</span><ArrowUpRight size={13}/></a>
       <div className="cinema-controls flex items-center gap-2">
         <button type="button" onClick={toggleTheme} aria-label={light ? '切换深色主题' : '切换浅色主题'} title={light ? '切换深色主题' : '切换浅色主题'}>{light ? <Moon size={15}/> : <Sun size={15}/>}</button>
         <button type="button" onClick={toggleMotion} aria-label={failed ? '重试背景视频' : paused || blocked ? '启用动效' : '暂停动效'} title={failed ? '重试背景视频' : paused || blocked ? '播放背景视频' : '暂停背景视频'}>{paused || blocked || failed ? <Play size={14}/> : <Pause size={14}/>}<span>{failed ? 'RETRY' : paused || blocked ? 'PLAY' : 'PAUSE'}</span></button>

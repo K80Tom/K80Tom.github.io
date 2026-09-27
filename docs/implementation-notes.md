@@ -9,6 +9,10 @@
 - 视觉：深色未来实验室；中文正文，英文身份与技术标签。
 - 交付：保留 GitHub Pages 地址、旧 HTML 页面 URL、原 PDF / 图片路径。
 
+## 首页与内容页分离
+
+首页仅保留视频首屏、导航、介绍与入口，不再渲染项目、经历或页脚。长内容统一迁到既有 `/projects.html`，页面命名为「作品与经历」，保留工作、关于、研究摘要、技术分享和联系锚点；已有项目详情、论文、荣誉页继续独立。旧首页的相关 hash 链接会转到内容页对应位置。
+
 ## 实现
 
 React + TypeScript + Vite + Tailwind CSS 3，静态预渲染；独立案例地址和可检索的完整 HTML。首页按用户提供的方案改为 CloudFront 视频、中文衬线标题与玻璃按钮；项目卡与详情页继续使用原创 SVG/CSS 场景。按钮基于 shadcn/ui 的 Radix Button，增加 glass 样式。Tailwind 关闭 Preflight，避免改写原有详情样式。

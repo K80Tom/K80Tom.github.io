@@ -3,7 +3,7 @@ import { render } from '../.ssr/entry-server.js'
 
 const pages = [
   ['index', '汤林夕 — AI Agent Engineer', '汤林夕的个人作品集。录屏智能体、DearAura、MiniCode 与多智能体短剧平台：把智能体做成真正可用的产品。'],
-  ['projects', '作品与项目经历 — 汤林夕', '四个 AI Agent 项目的完整案例：个人职责、设计取舍、技术架构与验证记录。'],
+  ['projects', '作品与经历 — 汤林夕', '汤林夕的完整作品与经历：四个 AI Agent 项目、工作经历、教育背景、技术能力、研究成果与联系方式。'],
   ['video-agent', '录屏智能体 — 汤林夕的项目案例', '整体负责录屏智能体设计与开发：独立调度、模型请求效率与设备执行可靠性。'],
   ['aura', 'DearAura · 记忆与陪伴 — 汤林夕', '用户长期记忆、会话分层压缩、SwiftUI 交互与反馈业务全栈开发。'],
   ['minicode', 'MiniCode · Agent Runtime — 汤林夕', '终端 AI 编程助手：ReAct、MCP、上下文管理、跨会话记忆与五层权限防御。'],

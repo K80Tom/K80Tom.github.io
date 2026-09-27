@@ -27,6 +27,7 @@ for (const file of files) {
 const expected = ['index','projects','video-agent','aura','minicode','shortdrama','papers','honors','404']
 for (const page of expected) if (!files.includes(`${page}.html`)) failures.push(`Missing page ${page}`)
 const checks = {
+  'projects.html': ['录屏智能体','DearAura','MiniCode','AI 短剧生产平台','id="about"','id="research"','id="creator"','id="contact"','GPA 3.4/4.0','ENGINEERING TOOLKIT','1,903'],
   'video-agent.html': ['录屏智能体整体设计与开发','43,222','32,397','等待'],
   'aura.html': ['CAS','ConversationProjection','结构化用户记忆','反馈业务后端'],
   'minicode.html': ['五层','85%','SWE-bench','uv run mewcode'],
@@ -34,6 +35,11 @@ const checks = {
   'papers.html': ['CIGFD','CIRGBD','消融实验','paper-cscwd.pdf','paper-iconip.pdf','<table'],
   'honors.html': ['cert-scholarship.jpg','cert-elec.jpg','cert-ccf.jpg','cert-cet6.jpg','cert-ruankao.jpg'],
 }
+const homepage = await readFile('dist/index.html', 'utf8')
+for (const removed of ['id="work"', 'id="about"', 'id="research"', 'id="creator"', 'id="contact"', '<footer']) {
+  if (homepage.includes(removed)) failures.push(`index.html: long-form content still present (${removed})`)
+}
+if (!homepage.includes('cinematic-hero') || !homepage.includes('href="/projects.html"')) failures.push('index.html: missing hero or portfolio entry')
 for (const [file, terms] of Object.entries(checks)) {
   const html = await readFile(`dist/${file}`, 'utf8')
   for (const term of terms) if (!html.includes(term)) failures.push(`${file}: missing migrated content ${term}`)
