@@ -2,13 +2,13 @@ import { readFile, writeFile } from 'node:fs/promises'
 import { render } from '../.ssr/entry-server.js'
 
 const pages = [
-  ['index', '汤林夕 — AI Agent Engineer', '汤林夕的个人作品集。录屏智能体、DearAura、MiniCode 与多智能体短剧平台：把智能体做成真正可用的产品。'],
-  ['projects', '精选作品 — 汤林夕', '录屏智能体、DearAura、MiniCode 与 AI 短剧生产平台。四个项目，四种落地方式，进入详情了解职责与技术实现。'],
+  ['index', '汤林夕 — AI Agent Engineer', '汤林夕的个人作品集。CreativeFlow、Dear Aura、MiniCode 与多智能体短剧平台：把智能体做成真正可用的产品。'],
+  ['projects', '精选作品 — 汤林夕', 'CreativeFlow、Dear Aura、MiniCode 与 AI 短剧生产平台。四个项目，四种落地方式，进入详情了解职责与技术实现。'],
   ['about', '关于我 — 汤林夕', '汤林夕的工作经历、教育背景、技术能力、研究成果、技术分享与联系方式。'],
-  ['video-agent', '录屏智能体 — 汤林夕的项目案例', '整体负责录屏智能体设计与开发：独立调度、模型请求效率与设备执行可靠性。'],
-  ['aura', 'DearAura · 记忆与陪伴 — 汤林夕', '用户长期记忆、会话分层压缩、SwiftUI 交互与反馈业务全栈开发。'],
+  ['video-agent', 'CreativeFlow · 录屏快剪 Agent — 汤林夕', '小红书搜广推内容增长平台中的录屏快剪 Agent：产品 Pack、视觉操作、上下文组织、EDL 剪辑与受控自进化。'],
+  ['aura', 'DearAura · 记忆与陪伴 — 汤林夕', 'Dear Aura 全栈开发、时间记忆、语气归因、并发缓存和异步日报；包含离线评测与长期记忆治理方案。'],
   ['minicode', 'MiniCode · Agent Runtime — 汤林夕', '终端 AI 编程助手：ReAct、MCP、上下文管理、跨会话记忆与五层权限防御。'],
-  ['shortdrama', 'AI 短剧生产平台 — 汤林夕', '多智能体编排、混合检索、信息充分性闸门与多模态素材入库。'],
+  ['shortdrama', 'AI 短剧生产平台 — 汤林夕', '中文在线短剧平台的素材入库、混合检索与受控 Agent 工具，以及独立公开项目 OHAO 的本地整集生产流程。'],
   ['papers', '科研论文 · 知识蒸馏 — 汤林夕', 'CIGFD 与 CIRGBD：完整论文摘要、方法、实验结果、消融分析与全文 PDF。'],
   ['honors', '荣誉与证书 — 汤林夕', '研究生学业奖学金、电子设计竞赛、算法竞赛、CCF 认证与专业证书。'],
   ['404', '页面未找到 — 汤林夕', '返回汤林夕的个人作品集。'],

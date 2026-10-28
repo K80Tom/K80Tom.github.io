@@ -16,7 +16,7 @@
       </div>
 
       <h4 class="block">摘要</h4>
-      <p class="abstract">深度学习在医学图像分割上精度很高，但模型参数量大，难以部署到边缘设备。知识蒸馏是重要的模型压缩手段，但现有方法在医学图像上存在关键局限：<b>解剖结构类内形态差异大、类间对比度低，且主流技术忽略了全局语义关系、无法抑制特征冗余</b>。本文提出跨图像关系框架 <b>CIGFD（Cross-Image Global Structural Filtering Distillation）</b>，通过特征过滤机制在像素与区域双粒度去除冗余、捕捉关键关系线索，实现跨图像精炼全局结构的高效迁移。在 BTCV、Synapse、FLARE 三个公开数据集上一致超越对比方法，为资源受限的边缘设备部署精准高效的医学图像分割模型提供了可行路径。</p>
+      <p class="abstract">深度学习在医学图像分割上精度很高，但模型参数量大，难以部署到边缘设备。知识蒸馏是重要的模型压缩手段，但现有方法在医学图像上存在关键局限：<b>解剖结构类内形态差异大、类间对比度低，且主流技术忽略了全局语义关系、无法抑制特征冗余</b>。本文提出跨图像关系框架 <b>CIGFD（Cross-Image Global Structural Filtering Distillation）</b>，通过特征过滤机制在像素与区域双粒度去除冗余、捕捉关键关系线索，实现跨图像精炼全局结构的高效迁移。在 BTCV、Synapse、FLARE 三个公开数据集上的多组师生配置中提升学生基线，为资源受限的边缘设备部署精准高效的医学图像分割模型提供了可行路径。</p>
       <div>
         <span class="kw">跨图像结构关系</span><span class="kw">医学图像分割</span><span class="kw">知识蒸馏</span><span class="kw">轻量模型</span><span class="kw">特征过滤</span>
       </div>
@@ -60,7 +60,7 @@
           <tr class="ours"><td class="best">CIGFD（本文）</td><td class="best">85.46 <span class="up">▲2.06</span></td><td class="best">82.42 <span class="up">▲2.39</span></td><td class="best">92.13 <span class="up">▲1.96</span></td><td class="best">89.17 <span class="up">▲1.44</span></td><td class="best">86.98 <span class="up">▲2.23</span></td><td class="best">83.97 <span class="up">▲2.17</span></td></tr>
         </table>
       </div>
-      <p>CIGFD 在所有模型组合上均取得更显著的提升，Dice 与 mIoU 提升至少 0.29%，最大达 <b>3.36%（Dice）与 3.16%（mIoU）</b>。特别值得注意的是，在 BTCV 数据集（ResNet34-UNet→ENet）上 CWD 和 BPKD 出现性能下降，Synapse 数据集上所有对比方法均出现不同程度退化，而 CIGFD 保持优秀的泛化能力与架构独立性。<b>特征过滤机制还带来训练效率的显著提升</b>——CIGFD 的 FPS（61.24/61.54）在所有方法中最高，凸显实际部署价值。</p>
+      <p>CIGFD 在所测师生组合中均提升学生基线；部分对照方法在特定配置下出现性能下降，但并非每个指标都由同一种方法最优。上表展示 RA-UNet→ENet；在另一组 <b>ResNet34-UNet→ENet</b> 配置下，Synapse Dice 从 <b>90.17% 提升至 93.53%（+3.36 个百分点）</b>，ENet 保持 0.35M 参数与 2.01G FLOPs。论文还报告了不同配置的 FPS，不能据此将蒸馏训练操作直接解释为推理加速的原因。</p>
 
       <h4 class="block">消融实验（教师 RA-UNET → 学生 ENET）</h4>
       <div class="tbl-wrap">
@@ -75,7 +75,7 @@
           <tr class="ours"><td class="best">+ AFCD + ECID + LD（完整）</td><td class="best">85.46 <span class="up">▲2.06</span></td><td class="best">82.42 <span class="up">▲2.39</span></td><td class="best">92.13 <span class="up">▲1.96</span></td><td class="best">89.17 <span class="up">▲1.44</span></td><td class="best">86.98 <span class="up">▲2.23</span></td><td class="best">83.97 <span class="up">▲2.17</span></td></tr>
         </table>
       </div>
-      <p>单独 LD 提升有限（最大 0.65%），AFCD 带来实质提升（最大 1.07%），ECID 同样显著（最大 1.31%）；多模块集成呈现明显协同效应，三模块完整集成达到最大提升 2.06%，验证了「局部细节保留 + 特征紧致增强 + 跨图像对比学习」共同构成完整有效蒸馏框架的设计理念。</p>
+      <p>单独 LD 提升有限（最大 0.65%），AFCD 带来实质提升（最大 1.07%），ECID 同样显著（最大 1.31%）；多模块集成呈现明显协同效应，三模块完整集成在 BTCV 上使 Dice 提升 2.06 个百分点，在 FLARE 上提升 2.23 个百分点，验证了「局部细节保留 + 特征紧致增强 + 跨图像对比学习」共同构成完整有效蒸馏框架的设计理念。</p>
 
       <h4 class="block">超参数敏感性分析</h4>
       <p>α₁、α₂、β 对模型性能影响极小，方法对这些参数鲁棒；特征过滤阈值 τ 影响显著——τ 过高只保留高显著性特征响应，可能丢失关键语义信息；τ 过低保留大量非显著特征，引入冗余噪声。实验建议 τ 取值范围 <b>[0.4, 0.6]</b> 以平衡细节保留与噪声抑制。</p>
@@ -173,10 +173,10 @@
           <tr class="ours"><td class="best">+ CIRD + GBD</td><td class="best">86.53 <span class="up">▲3.13</span></td><td class="best">83.42 <span class="up">▲3.39</span></td><td class="best">92.27 <span class="up">▲2.10</span></td><td class="best">89.39 <span class="up">▲1.66</span></td><td class="best">86.98 <span class="up">▲2.23</span></td><td class="best">83.97 <span class="up">▲2.17</span></td></tr>
         </table>
       </div>
-      <p>两模块在所有数据集上均带来一致提升，且融合后的增益显著高于单模块叠加，体现强协同效应：CIRD 在 Synapse 上最大 Dice 增益 1.66%（验证跨图像区域对比对类内形态差异的作用）；GBD 在 BTCV 上最大 mIoU 增益 2.12%（验证全局边界蒸馏对小器官边界的改善）。</p>
+      <p>两模块在所有数据集上均带来一致提升，且完整配置在三组数据集上均优于任一单模块，体现两种蒸馏信号的互补作用：CIRD 在 Synapse 上最大 Dice 增益 1.66%（验证跨图像区域对比对类内形态差异的作用）；GBD 在 BTCV 上最大 mIoU 增益 2.12%（验证全局边界蒸馏对小器官边界的改善）。</p>
 
       <h4 class="block">计算效率</h4>
-      <p>CIRGBD 在提升精度的同时完全保留学生模型的轻量特性：参数量与 FLOPS 与基线方法及原始学生模型完全一致，<b>零额外计算开销</b>；多数配置下推理速度反而更快（如 ENET 在 BTCV 上 FPS 57.46，高于 EMKD 的 57.12）。这得益于 CIRD 与 GBD 仅对现有特征图与预测结果做掩码加权、平均池化、Sobel 边缘提取等简单操作，不引入额外卷积层或网络分支，高度契合临床部署需求。</p>
+      <p>CIRGBD 在提升精度的同时完全保留学生模型的轻量特性：参数量与 FLOPS 与基线方法及原始学生模型完全一致，<b>不增加学生模型推理复杂度</b>。CIRD 与 GBD 用于蒸馏训练，不改变学生推理网络；训练阶段仍需计算蒸馏损失，不能将其描述为训练零开销。论文所报告的 FPS 反映对应测量条件下的结果。</p>
 
       <h4 class="block">定性分析</h4>
       <p>可视化结果显示，CIRGBD 生成的器官分割结果更完整、边界更平滑：对 BTCV 中胆囊、胰腺等小型解剖结构能准确捕捉细粒度特征（基线方法难以做到）；CIRD 有效纠正类别区分度低的误分割区域，GBD 使模糊不均的边界变得精确清晰。</p>
